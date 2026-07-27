@@ -8,9 +8,10 @@
 // Hover = underline only
 //
 // MOBILE / TABLET:
-// Selected link = permanent underline
-// Home starts active
-// Clicking Guide/History moves underline
+// Current page = permanent underline
+// Home = active on Home page
+// Guide = active on Guide page
+// History = active on History page
 // =====================================================
 
 
@@ -117,20 +118,16 @@ if (downloadBtn) {
 // =====================================================
 // NAVIGATION ACTIVE STATE
 //
+// DESKTOP / LAPTOP:
+// Active class does not show permanent underline.
+// CSS hover controls the underline.
+//
+// MOBILE / TABLET:
+// Active class shows permanent underline.
+//
 // IMPORTANT:
-//
-// Desktop:
-// No permanent active class.
-// Only CSS hover underline.
-//
-// Mobile / Tablet:
-// Active class stays on selected link.
-//
-// This function ONLY changes the selected
-// navigation link.
-//
-// It does NOT automatically switch back
-// to Home while scrolling.
+// Current page is detected automatically.
+// Home is NOT forced active on every page.
 // =====================================================
 
 function setActiveNavLink(activeLink) {
@@ -161,15 +158,190 @@ function setActiveNavLink(activeLink) {
 
 
 // =====================================================
+// DETECT CURRENT PAGE
+// =====================================================
+
+function setInitialNavLink() {
+
+    if (!navLinks.length) {
+
+        return;
+
+    }
+
+
+    // ---------------------------------------------
+    // GET CURRENT PAGE NAME
+    // ---------------------------------------------
+
+    let currentPage =
+        window.location.pathname
+            .split("/")
+            .pop()
+            .toLowerCase();
+
+
+    // ---------------------------------------------
+    // IF NO PAGE NAME
+    // DEFAULT TO HOME
+    // ---------------------------------------------
+
+    if (
+        !currentPage ||
+        currentPage === ""
+    ) {
+
+        currentPage =
+            "index.html";
+
+    }
+
+
+    // ---------------------------------------------
+    // FIND CURRENT PAGE LINK
+    // ---------------------------------------------
+
+    let activeLink = null;
+
+
+    navLinks.forEach(
+        function(link) {
+
+            const href =
+                link.getAttribute(
+                    "href"
+                );
+
+
+            if (!href) {
+
+                return;
+
+            }
+
+
+            const cleanHref =
+                href
+                    .split("/")
+                    .pop()
+                    .split("?")[0]
+                    .split("#")[0]
+                    .toLowerCase();
+
+
+            // -----------------------------------------
+            // HOME
+            // -----------------------------------------
+
+            if (
+
+                (
+                    currentPage ===
+                    "index.html"
+
+                    ||
+
+                    currentPage ===
+                    ""
+                )
+
+                &&
+
+                cleanHref ===
+                "index.html"
+
+            ) {
+
+                activeLink =
+                    link;
+
+            }
+
+
+            // -----------------------------------------
+            // GUIDE
+            // -----------------------------------------
+
+            else if (
+
+                currentPage ===
+                "guide.html"
+
+                &&
+
+                cleanHref ===
+                "guide.html"
+
+            ) {
+
+                activeLink =
+                    link;
+
+            }
+
+
+            // -----------------------------------------
+            // HISTORY
+            // -----------------------------------------
+
+            else if (
+
+                currentPage ===
+                "history.html"
+
+                &&
+
+                cleanHref ===
+                "history.html"
+
+            ) {
+
+                activeLink =
+                    link;
+
+            }
+
+        }
+    );
+
+
+    // ---------------------------------------------
+    // SET CURRENT PAGE ACTIVE
+    // ---------------------------------------------
+
+    if (activeLink) {
+
+        setActiveNavLink(
+            activeLink
+        );
+
+    }
+
+
+    // ---------------------------------------------
+    // FALLBACK
+    // ---------------------------------------------
+
+    else if (navLinks.length) {
+
+        setActiveNavLink(
+            navLinks[0]
+        );
+
+    }
+
+}
+
+
+// =====================================================
 // NAVIGATION CLICK / TAP
 //
 // MOBILE / TABLET:
-// The clicked link becomes active.
+// Selected link becomes active immediately.
 //
 // DESKTOP:
-// Active class is still updated internally,
-// but CSS hides permanent underline.
-// Hover controls underline.
+// Active class changes internally,
+// but CSS keeps underline hover-only.
 // =====================================================
 
 navLinks.forEach(
@@ -191,112 +363,7 @@ navLinks.forEach(
 
 
 // =====================================================
-// INITIAL NAVIGATION
-//
-// HOME IS ACTIVE BY DEFAULT
-//
-// IMPORTANT:
-// We DO NOT compare pathname.
-// We DO NOT use scroll detection.
-// This prevents Home from being forced active.
-// =====================================================
-
-function setInitialNavLink() {
-
-    if (!navLinks.length) {
-
-        return;
-
-    }
-
-
-    // Remove active from everything first
-
-    navLinks.forEach(
-        function(link) {
-
-            link.classList.remove(
-                "active"
-            );
-
-        }
-    );
-
-
-    // Find Home link
-
-    let homeLink = null;
-
-
-    navLinks.forEach(
-        function(link) {
-
-            const text =
-                link.textContent
-                    .trim()
-                    .toLowerCase();
-
-
-            const href =
-                link.getAttribute(
-                    "href"
-                );
-
-
-            if (
-
-                text === "home"
-
-                ||
-
-                href === "#home"
-
-                ||
-
-                href === "index.html"
-
-                ||
-
-                href === "./index.html"
-
-            ) {
-
-                homeLink =
-                    link;
-
-            }
-
-        }
-    );
-
-
-    // If Home exists, make it active
-
-    if (homeLink) {
-
-        setActiveNavLink(
-            homeLink
-        );
-
-    }
-
-    // Fallback:
-    // If Home was not found,
-    // activate first link.
-
-    else {
-
-        setActiveNavLink(
-            navLinks[0]
-        );
-
-    }
-
-}
-
-
-// =====================================================
-// SET HOME ACTIVE ON PAGE LOAD
+// SET CORRECT ACTIVE PAGE ON LOAD
 // =====================================================
 
 setInitialNavLink();
@@ -305,18 +372,11 @@ setInitialNavLink();
 // =====================================================
 // IMPORTANT:
 //
-// SCROLL ACTIVE NAVIGATION IS DISABLED.
+// NO SCROLL ACTIVE NAVIGATION.
 //
-// Previously this function was detecting
-// sections and repeatedly setting Home active.
+// Home will NOT become active while scrolling.
 //
-// That was the reason:
-// Home underline worked,
-// Guide / History underline disappeared.
-//
-// Now clicking controls the active state.
-//
-// DO NOT ADD SCROLL ACTIVE LOGIC HERE.
+// The current page controls the active state.
 // =====================================================
 
 
@@ -1251,17 +1311,12 @@ document.head.appendChild(
 // =====================================================
 // NAVIGATION ACTIVE UNDERLINE CSS
 //
-// THIS IS THE IMPORTANT FIX
-//
 // DESKTOP:
-// ONLY HOVER
+// Hover = purple underline only
 //
 // MOBILE / TABLET:
-// ONLY .active LINK GETS UNDERLINE
+// Current page = permanent purple underline
 //
-// NO :active
-// NO SCROLL LOGIC
-// NO FORCED HOME
 // =====================================================
 
 const navigationStyle =
@@ -1271,6 +1326,7 @@ const navigationStyle =
 
 
 navigationStyle.innerHTML = `
+
 
 /* =========================================
    BASE NAVIGATION
@@ -1287,7 +1343,7 @@ navigationStyle.innerHTML = `
 
 
 /* =========================================
-   REMOVE ANY OLD UNDERLINE
+   STANDARD PURPLE UNDERLINE
 ========================================= */
 
 .nav-links a::after {
@@ -1327,31 +1383,34 @@ navigationStyle.innerHTML = `
 
 /* =========================================
    DESKTOP / LAPTOP
-   769px AND ABOVE
+   HOVER ONLY
 ========================================= */
 
 @media (min-width: 769px) {
 
     .nav-links a:hover {
 
-        color: #FFFFFF;
+        color:
+            #FFFFFF;
 
     }
 
 
     .nav-links a:hover::after {
 
-        width: 45px;
+        width:
+            45px;
 
     }
 
 
-    /* Active class NEVER creates
-       permanent underline on desktop */
+    /* Active page does NOT
+       keep permanent underline */
 
     .nav-links a.active::after {
 
-        width: 0 !important;
+        width:
+            0 !important;
 
     }
 
@@ -1360,7 +1419,7 @@ navigationStyle.innerHTML = `
 
 /* =========================================
    MOBILE / TABLET
-   768px AND BELOW
+   SELECTED PAGE ONLY
 ========================================= */
 
 @media (max-width: 768px) {
@@ -1369,37 +1428,40 @@ navigationStyle.innerHTML = `
 
     .nav-links a {
 
-        color: #B7C0D4;
+        color:
+            #B7C0D4;
 
     }
 
 
-    /* Selected link */
+    /* Selected page */
 
     .nav-links a.active {
 
-        color: #FFFFFF;
+        color:
+            #FFFFFF;
 
     }
 
 
-    /* Selected link underline */
+    /* Permanent underline
+       on selected page */
 
     .nav-links a.active::after {
 
-        width: 45px !important;
+        width:
+            45px !important;
 
     }
 
 
-    /* IMPORTANT:
-       No :active underline.
-       This prevents the line from
-       behaving incorrectly during touch. */
+    /* Touch feedback does not
+       remove the selected underline */
 
     .nav-links a:active::after {
 
-        width: 0;
+        width:
+            45px;
 
     }
 
@@ -1476,10 +1538,8 @@ document.head.appendChild(
 // FINAL INITIALIZATION
 //
 // IMPORTANT:
-// NO setInitialNavLink() AGAIN HERE
-// because that can reset the active link.
-//
-// It is already called once above.
+// Active navigation is already initialized above.
+// Do not reset it again here.
 // =====================================================
 
 document.addEventListener(
