@@ -2,7 +2,8 @@
 // VED ARCHFLOW
 // FINAL FRONTEND CONTROLLER
 // IMAGE VIEWER + VIEW BUTTONS + CENTER MESSAGES
-// MOBILE NAVIGATION TAP UNDERLINE FIX
+// DESKTOP HOVER UNDERLINE
+// MOBILE/TABLET ACTIVE NAV UNDERLINE
 // =====================================================
 
 
@@ -118,21 +119,37 @@ if (downloadBtn) {
 // NAVIGATION ACTIVE STATE
 //
 // DESKTOP:
-// Only hover underline.
+// Hover underline handled by CSS.
 //
 // MOBILE / TABLET:
-// Only tapped link gets underline.
-// Home is NOT automatically active.
-// Underline moves when another link is tapped.
+// One active link always stays underlined.
 //
-// IMPORTANT:
-// No scroll-based active state.
-// No automatic first-link active state.
+// Page load:
+// Home active.
+//
+// Tap another link:
+// Active underline moves.
+//
+// Scroll:
+// Does NOT change active navigation.
+//
+// =====================================================
+
+
+// =====================================================
+// SET ACTIVE NAVIGATION LINK
 // =====================================================
 
 function setActiveNavLink(
     activeLink
 ) {
+
+    if (!activeLink) {
+
+        return;
+
+    }
+
 
     navLinks.forEach(
         function(link) {
@@ -145,22 +162,23 @@ function setActiveNavLink(
     );
 
 
-    if (
-        activeLink &&
-        window.innerWidth <= 768
-    ) {
-
-        activeLink.classList.add(
-            "active"
-        );
-
-    }
+    activeLink.classList.add(
+        "active"
+    );
 
 }
 
 
 // =====================================================
 // NAVIGATION CLICK / TAP
+//
+// On mobile/tablet:
+// underline moves to clicked item.
+//
+// On desktop:
+// active class is added but CSS
+// keeps permanent underline hidden.
+// Hover still controls underline.
 // =====================================================
 
 navLinks.forEach(
@@ -170,20 +188,9 @@ navLinks.forEach(
             "click",
             function() {
 
-                // -------------------------------------
-                // MOBILE / TABLET
-                // -------------------------------------
-
-                if (
-                    window.innerWidth <=
-                    768
-                ) {
-
-                    setActiveNavLink(
-                        link
-                    );
-
-                }
+                setActiveNavLink(
+                    link
+                );
 
             }
         );
@@ -193,27 +200,52 @@ navLinks.forEach(
 
 
 // =====================================================
-// DESKTOP MODE
+// INITIAL NAVIGATION STATE
 //
-// Remove active underline completely.
-// Desktop uses hover only.
+// MOBILE / TABLET:
+// Home is active.
+//
+// DESKTOP:
+// No permanent active underline.
+// Hover controls underline.
+//
+// IMPORTANT:
+// We do NOT compare pathname.
+// We do NOT use scroll detection.
+// Home is always the initial active item.
 // =====================================================
 
-function clearDesktopActiveState() {
+function setInitialNavLink() {
+
+    if (!navLinks.length) {
+
+        return;
+
+    }
+
+
+    // Remove active from everything first
+
+    navLinks.forEach(
+        function(link) {
+
+            link.classList.remove(
+                "active"
+            );
+
+        }
+    );
+
+
+    // First navigation item = Home
 
     if (
-        window.innerWidth >
+        window.innerWidth <=
         768
     ) {
 
-        navLinks.forEach(
-            function(link) {
-
-                link.classList.remove(
-                    "active"
-                );
-
-            }
+        setActiveNavLink(
+            navLinks[0]
         );
 
     }
@@ -221,18 +253,66 @@ function clearDesktopActiveState() {
 }
 
 
-clearDesktopActiveState();
+// =====================================================
+// INITIAL NAVIGATION
+// =====================================================
+
+setInitialNavLink();
 
 
 // =====================================================
-// RESPONSIVE SCREEN CHANGE
+// HANDLE RESIZE
+//
+// If device changes from desktop to mobile:
+// Home becomes active.
+//
+// If mobile to desktop:
+// Active class is removed so desktop
+// remains hover-only.
+//
 // =====================================================
 
 window.addEventListener(
     "resize",
     function() {
 
-        clearDesktopActiveState();
+        if (
+            window.innerWidth <=
+            768
+        ) {
+
+            // If no active link exists,
+            // activate Home.
+
+            const activeLink =
+                document.querySelector(
+                    ".nav-links a.active"
+                );
+
+
+            if (!activeLink) {
+
+                setActiveNavLink(
+                    navLinks[0]
+                );
+
+            }
+
+        } else {
+
+            // Desktop = hover only
+
+            navLinks.forEach(
+                function(link) {
+
+                    link.classList.remove(
+                        "active"
+                    );
+
+                }
+            );
+
+        }
 
     }
 );
@@ -593,7 +673,7 @@ function showViewerImage(
 
 
     // ---------------------------------------------
-    // CREATE ONLY REQUESTED CENTER MESSAGE
+    // CREATE CENTER MESSAGE
     // ---------------------------------------------
 
     if (message) {
@@ -1073,24 +1153,6 @@ if (viewPerspective) {
 
 // =====================================================
 // VIEWER CSS
-//
-// IMAGE:
-// FULL WIDTH
-// FULL HEIGHT
-// NO BORDER
-//
-// MESSAGE:
-// SMALL
-// CENTER
-// LIGHT
-// FADED
-//
-// CONTROLS:
-// ABOVE IMAGE
-// CLICKABLE
-//
-// DEFAULT PLACEHOLDER:
-// HIDDEN
 // =====================================================
 
 const viewerStyle =
@@ -1160,7 +1222,7 @@ viewerStyle.innerHTML = `
 
 
 /* =========================================
-   ONLY CENTER MESSAGE
+   CENTER MESSAGE
 ========================================= */
 
 #viewer .archflow-viewer-message {
@@ -1233,7 +1295,6 @@ viewerStyle.innerHTML = `
 
 /* =========================================
    VIEWPORT CONTROLS
-   ABOVE IMAGE
 ========================================= */
 
 #viewer .viewport-controls {
@@ -1247,7 +1308,6 @@ viewerStyle.innerHTML = `
 
 /* =========================================
    VIEWPORT TOP BAR
-   ABOVE IMAGE
 ========================================= */
 
 #viewer .viewport-topbar {
@@ -1261,7 +1321,6 @@ viewerStyle.innerHTML = `
 
 /* =========================================
    VIEWPORT AXIS
-   ABOVE IMAGE
 ========================================= */
 
 #viewer .viewport-axis {
@@ -1274,7 +1333,7 @@ viewerStyle.innerHTML = `
 
 
 /* =========================================
-   MOBILE
+   MOBILE MESSAGE
 ========================================= */
 
 @media (max-width: 768px) {
@@ -1299,16 +1358,15 @@ document.head.appendChild(
 // =====================================================
 // NAVIGATION ACTIVE UNDERLINE CSS
 //
-// DESKTOP:
+// DESKTOP / LAPTOP:
 // Hover = underline
+// No permanent active underline
 //
 // MOBILE / TABLET:
-// Only tapped link = underline
-//
-// IMPORTANT:
-// No default Home underline.
-// No scroll-based underline.
-// No automatic active link.
+// Home active on page load
+// Tap Guide = underline moves to Guide
+// Tap History = underline moves to History
+// One underline only
 // =====================================================
 
 const navigationStyle =
@@ -1325,7 +1383,7 @@ navigationStyle.innerHTML = `
 
 .nav-links a {
 
-    position: relative;
+    position: relative !important;
 
     text-decoration: none !important;
 
@@ -1333,45 +1391,27 @@ navigationStyle.innerHTML = `
 
 
 /* =========================================
-   REMOVE ANY OLD ACTIVE / FOCUS UNDERLINE
-========================================= */
-
-.nav-links a:focus {
-
-    outline: none;
-
-}
-
-
-.nav-links a:focus-visible {
-
-    outline: none;
-
-}
-
-
-/* =========================================
-   UNDERLINE BASE
+   REMOVE OLD UNDERLINE STATES
 ========================================= */
 
 .nav-links a::after {
 
-    content: "";
+    content: "" !important;
 
-    position: absolute;
+    position: absolute !important;
 
-    left: 50%;
+    left: 50% !important;
 
-    bottom: 0;
+    bottom: 0 !important;
 
-    width: 0;
+    width: 0 !important;
 
-    height: 2px;
+    height: 2px !important;
 
-    border-radius: 10px;
+    border-radius: 10px !important;
 
     transform:
-        translateX(-50%);
+        translateX(-50%) !important;
 
     background:
 
@@ -1379,39 +1419,42 @@ navigationStyle.innerHTML = `
             90deg,
             var(--primary),
             var(--secondary)
-        );
+        ) !important;
 
     transition:
 
-        width 0.25s ease;
+        width 0.25s ease !important;
 
-    pointer-events: none;
+    pointer-events: none !important;
 
 }
 
 
 /* =========================================
-   DESKTOP
-   ONLY HOVER
+   DESKTOP / LAPTOP
+   HOVER ONLY
 ========================================= */
 
 @media (min-width: 769px) {
 
     .nav-links a:hover {
 
-        color: #FFFFFF;
+        color: #FFFFFF !important;
 
     }
 
 
     .nav-links a:hover::after {
 
-        width: 45px;
+        width: 45px !important;
 
     }
 
 
-    /* Active class has NO underline */
+    /*
+       Active class does not create
+       permanent underline on desktop.
+    */
 
     .nav-links a.active::after {
 
@@ -1423,28 +1466,78 @@ navigationStyle.innerHTML = `
 
 
 /* =========================================
-   MOBILE + TABLET
-   ONLY ACTIVE LINK
+   MOBILE / TABLET
+   ACTIVE ITEM STAYS UNDERLINED
 ========================================= */
 
 @media (max-width: 768px) {
 
-    .nav-links a {
-
-        -webkit-tap-highlight-color:
-            transparent;
-
-        touch-action: manipulation;
-
-    }
-
-
     .nav-links a.active {
 
-        color: #FFFFFF;
+        color: #FFFFFF !important;
 
     }
 
+
+    .nav-links a.active::after {
+
+        width: 45px !important;
+
+    }
+
+
+    /*
+       Hover does NOT create another
+       underline on mobile/tablet.
+    */
+
+    .nav-links a:hover::after {
+
+        width: 0 !important;
+
+    }
+
+
+    /*
+       Only the active item gets underline.
+    */
+
+    .nav-links a:not(.active)::after {
+
+        width: 0 !important;
+
+    }
+
+
+    /*
+       Prevent browser tap/focus underline.
+    */
+
+    .nav-links a:active::after {
+
+        width: 0 !important;
+
+    }
+
+
+    .nav-links a:focus::after {
+
+        width: 0 !important;
+
+    }
+
+
+    .nav-links a:focus-visible::after {
+
+        width: 0 !important;
+
+    }
+
+
+    /*
+       Re-enable underline for active
+       item even after tap/focus.
+    */
 
     .nav-links a.active::after {
 
@@ -1456,22 +1549,32 @@ navigationStyle.innerHTML = `
 
 
 /* =========================================
-   MOBILE
-   REMOVE HOVER EFFECT
+   TOUCH DEVICES
 ========================================= */
 
 @media (hover: none) and (pointer: coarse) {
 
-    .nav-links a:hover {
+    .nav-links a {
 
-        color: inherit;
+        -webkit-tap-highlight-color:
+            transparent !important;
+
+        touch-action:
+            manipulation;
 
     }
 
 
-    .nav-links a:hover::after {
+    .nav-links a:not(.active)::after {
 
-        width: 0;
+        width: 0 !important;
+
+    }
+
+
+    .nav-links a.active::after {
+
+        width: 45px !important;
 
     }
 
@@ -1547,12 +1650,6 @@ document.head.appendChild(
 // =====================================================
 // FINAL INITIALIZATION
 // =====================================================
-//
-// IMPORTANT:
-// Do NOT set Home active automatically.
-// Do NOT use scroll-based navigation state.
-// Mobile underline appears ONLY after tapping.
-// =====================================================
 
 document.addEventListener(
     "DOMContentLoaded",
@@ -1560,18 +1657,37 @@ document.addEventListener(
 
         removeDefaultViewerContent();
 
-        // Clear any active class that may
-        // already exist in HTML on page load.
+        /*
+           On mobile/tablet:
+           Home is active.
 
-        navLinks.forEach(
-            function(link) {
+           On desktop:
+           No active underline.
+           Hover controls underline.
+        */
 
-                link.classList.remove(
-                    "active"
-                );
+        if (
+            window.innerWidth <=
+            768
+        ) {
 
-            }
-        );
+            setActiveNavLink(
+                navLinks[0]
+            );
+
+        } else {
+
+            navLinks.forEach(
+                function(link) {
+
+                    link.classList.remove(
+                        "active"
+                    );
+
+                }
+            );
+
+        }
 
     }
 );
