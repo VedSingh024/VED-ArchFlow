@@ -5,10 +5,12 @@
 // NAVIGATION ACTIVE STATE
 //
 // DESKTOP / LAPTOP:
-// Hover = underline only
+// Selected page = permanent underline
+// Other links = hover underline
 //
 // MOBILE / TABLET:
 // Current page = permanent underline
+//
 // Home = active on Home page
 // Guide = active on Guide page
 // History = active on History page
@@ -119,11 +121,13 @@ if (downloadBtn) {
 // NAVIGATION ACTIVE STATE
 //
 // DESKTOP / LAPTOP:
-// Active class does not show permanent underline.
-// CSS hover controls the underline.
+// Selected page keeps permanent underline.
+//
+// Other links:
+// Hover shows temporary underline.
 //
 // MOBILE / TABLET:
-// Active class shows permanent underline.
+// Selected page keeps permanent underline.
 //
 // IMPORTANT:
 // Current page is detected automatically.
@@ -336,12 +340,13 @@ function setInitialNavLink() {
 // =====================================================
 // NAVIGATION CLICK / TAP
 //
-// MOBILE / TABLET:
-// Selected link becomes active immediately.
-//
 // DESKTOP:
-// Active class changes internally,
-// but CSS keeps underline hover-only.
+// Clicked link becomes permanently selected.
+//
+// MOBILE / TABLET:
+// Clicked link becomes permanently selected.
+//
+// The actual page navigation still happens normally.
 // =====================================================
 
 navLinks.forEach(
@@ -377,6 +382,8 @@ setInitialNavLink();
 // Home will NOT become active while scrolling.
 //
 // The current page controls the active state.
+//
+// Clicking another page changes its active state.
 // =====================================================
 
 
@@ -1311,11 +1318,23 @@ document.head.appendChild(
 // =====================================================
 // NAVIGATION ACTIVE UNDERLINE CSS
 //
-// DESKTOP:
-// Hover = purple underline only
+// DESKTOP / LAPTOP:
+// Selected page = permanent underline
+// Other links = hover underline
 //
 // MOBILE / TABLET:
-// Current page = permanent purple underline
+// Selected page = permanent underline
+//
+// IMPORTANT:
+//
+// Active link NEVER loses its underline
+// when cursor is placed over it.
+//
+// When another link is hovered,
+// that link gets temporary underline.
+//
+// When another link is clicked,
+// it becomes permanently selected.
 //
 // =====================================================
 
@@ -1343,7 +1362,7 @@ navigationStyle.innerHTML = `
 
 
 /* =========================================
-   STANDARD PURPLE UNDERLINE
+   UNDERLINE
 ========================================= */
 
 .nav-links a::after {
@@ -1374,7 +1393,10 @@ navigationStyle.innerHTML = `
         );
 
     transition:
-        width 0.25s ease;
+
+        width 0.25s ease,
+
+        opacity 0.25s ease;
 
     pointer-events: none;
 
@@ -1382,11 +1404,40 @@ navigationStyle.innerHTML = `
 
 
 /* =========================================
+   ACTIVE / SELECTED PAGE
+   PC + MOBILE
+========================================= */
+
+.nav-links a.active {
+
+    color:
+        #FFFFFF;
+
+}
+
+
+.nav-links a.active::after {
+
+    width:
+        45px !important;
+
+    opacity:
+        1 !important;
+
+}
+
+
+/* =========================================
    DESKTOP / LAPTOP
-   HOVER ONLY
+   769px AND ABOVE
 ========================================= */
 
 @media (min-width: 769px) {
+
+
+    /* -----------------------------------------
+       HOVER COLOR
+    ----------------------------------------- */
 
     .nav-links a:hover {
 
@@ -1396,10 +1447,39 @@ navigationStyle.innerHTML = `
     }
 
 
-    .nav-links a:hover::after {
+    /* -----------------------------------------
+       NON-ACTIVE LINK HOVER
+       
+       Only links which are NOT selected
+       get temporary hover underline.
+    ----------------------------------------- */
+
+    .nav-links a:not(.active):hover::after {
 
         width:
             45px;
+
+        opacity:
+            1;
+
+    }
+
+
+    /* -----------------------------------------
+       ACTIVE LINK
+       
+       Always remains underlined.
+       
+       Even when cursor moves over it.
+    ----------------------------------------- */
+
+    .nav-links a.active::after {
+
+        width:
+            45px !important;
+
+        opacity:
+            1 !important;
 
     }
 
@@ -1408,12 +1488,15 @@ navigationStyle.innerHTML = `
 
 /* =========================================
    MOBILE / TABLET
-   SELECTED PAGE ONLY
+   768px AND BELOW
 ========================================= */
 
 @media (max-width: 768px) {
 
-    /* Normal links */
+
+    /* -----------------------------------------
+       NORMAL LINKS
+    ----------------------------------------- */
 
     .nav-links a {
 
@@ -1423,7 +1506,9 @@ navigationStyle.innerHTML = `
     }
 
 
-    /* Selected page */
+    /* -----------------------------------------
+       ACTIVE PAGE
+    ----------------------------------------- */
 
     .nav-links a.active {
 
@@ -1433,24 +1518,32 @@ navigationStyle.innerHTML = `
     }
 
 
-    /* Permanent underline
-       on selected page */
+    /* -----------------------------------------
+       ACTIVE PAGE PERMANENT UNDERLINE
+    ----------------------------------------- */
 
     .nav-links a.active::after {
 
         width:
             45px !important;
 
+        opacity:
+            1 !important;
+
     }
 
 
-    /* Touch feedback does not
-       remove the selected underline */
+    /* -----------------------------------------
+       TOUCH FEEDBACK
+    ----------------------------------------- */
 
     .nav-links a:active::after {
 
         width:
             45px;
+
+        opacity:
+            1;
 
     }
 
