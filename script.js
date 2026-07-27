@@ -2,8 +2,7 @@
 // VED ARCHFLOW
 // FINAL FRONTEND CONTROLLER
 // IMAGE VIEWER + VIEW BUTTONS + CENTER MESSAGES
-// DESKTOP HOVER UNDERLINE
-// MOBILE/TABLET ACTIVE NAV UNDERLINE
+// NAVIGATION HOVER + MOBILE ACTIVE UNDERLINE
 // =====================================================
 
 
@@ -59,12 +58,6 @@ let modelURL = null;
 
 // =====================================================
 // IMAGE PATHS
-//
-// F:\Ved arch\frontend
-//
-// ved 1.png
-// ved 2.png
-// ved 3.png
 // =====================================================
 
 const VED_IMAGE_1 =
@@ -101,16 +94,14 @@ const VIEW_MESSAGES = {
 
 if (generateBtn) {
 
-    generateBtn.disabled =
-        true;
+    generateBtn.disabled = true;
 
 }
 
 
 if (downloadBtn) {
 
-    downloadBtn.disabled =
-        true;
+    downloadBtn.disabled = true;
 
 }
 
@@ -119,30 +110,20 @@ if (downloadBtn) {
 // NAVIGATION ACTIVE STATE
 //
 // DESKTOP:
-// Hover underline handled by CSS.
+// CSS handles hover underline.
 //
 // MOBILE / TABLET:
-// One active link always stays underlined.
+// JavaScript adds active class to the
+// exact link that was tapped.
 //
-// Page load:
-// Home active.
-//
-// Tap another link:
-// Active underline moves.
-//
-// Scroll:
-// Does NOT change active navigation.
-//
+// IMPORTANT:
+// No scroll listener.
+// No automatic section detection.
+// This prevents Home from becoming active
+// again automatically.
 // =====================================================
 
-
-// =====================================================
-// SET ACTIVE NAVIGATION LINK
-// =====================================================
-
-function setActiveNavLink(
-    activeLink
-) {
+function setActiveNavLink(activeLink) {
 
     if (!activeLink) {
 
@@ -172,13 +153,7 @@ function setActiveNavLink(
 // =====================================================
 // NAVIGATION CLICK / TAP
 //
-// On mobile/tablet:
-// underline moves to clicked item.
-//
-// On desktop:
-// active class is added but CSS
-// keeps permanent underline hidden.
-// Hover still controls underline.
+// EXACTLY THE CLICKED LINK GETS ACTIVE
 // =====================================================
 
 navLinks.forEach(
@@ -200,19 +175,14 @@ navLinks.forEach(
 
 
 // =====================================================
-// INITIAL NAVIGATION STATE
+// INITIAL MOBILE ACTIVE LINK
 //
-// MOBILE / TABLET:
-// Home is active.
+// ONLY FIRST NAV LINK = HOME
+// ON MOBILE / TABLET
 //
 // DESKTOP:
-// No permanent active underline.
-// Hover controls underline.
-//
-// IMPORTANT:
-// We do NOT compare pathname.
-// We do NOT use scroll detection.
-// Home is always the initial active item.
+// NO ACTIVE CLASS.
+// DESKTOP IS PURE HOVER.
 // =====================================================
 
 function setInitialNavLink() {
@@ -224,7 +194,7 @@ function setInitialNavLink() {
     }
 
 
-    // Remove active from everything first
+    // Remove any old active class
 
     navLinks.forEach(
         function(link) {
@@ -237,15 +207,17 @@ function setInitialNavLink() {
     );
 
 
-    // First navigation item = Home
+    // Mobile / Tablet only
 
     if (
         window.innerWidth <=
         768
     ) {
 
-        setActiveNavLink(
-            navLinks[0]
+        // Home is first link
+
+        navLinks[0].classList.add(
+            "active"
         );
 
     }
@@ -261,78 +233,24 @@ setInitialNavLink();
 
 
 // =====================================================
-// HANDLE RESIZE
+// IMPORTANT
 //
-// If device changes from desktop to mobile:
-// Home becomes active.
+// NO SCROLL BASED ACTIVE NAVIGATION.
 //
-// If mobile to desktop:
-// Active class is removed so desktop
-// remains hover-only.
+// DO NOT ADD:
 //
+// window.addEventListener("scroll", ...)
+//
+// Because that was forcing Home / another section
+// to become active automatically.
+//
+// The underline now moves ONLY when the user
+// taps another navigation button.
 // =====================================================
-
-window.addEventListener(
-    "resize",
-    function() {
-
-        if (
-            window.innerWidth <=
-            768
-        ) {
-
-            // If no active link exists,
-            // activate Home.
-
-            const activeLink =
-                document.querySelector(
-                    ".nav-links a.active"
-                );
-
-
-            if (!activeLink) {
-
-                setActiveNavLink(
-                    navLinks[0]
-                );
-
-            }
-
-        } else {
-
-            // Desktop = hover only
-
-            navLinks.forEach(
-                function(link) {
-
-                    link.classList.remove(
-                        "active"
-                    );
-
-                }
-            );
-
-        }
-
-    }
-);
 
 
 // =====================================================
 // REMOVE DEFAULT VIEWER PLACEHOLDER
-//
-// Removes:
-// No 3D Model Yet
-// Choose a Floor Plan
-// Upload a Floor Plan
-// Any default empty viewer text
-//
-// DOES NOT REMOVE:
-// Reset View
-// Top
-// Perspective
-// VED ArchFlow top bar
-// Axis
 // =====================================================
 
 function removeDefaultViewerContent() {
@@ -381,7 +299,6 @@ function removeDefaultViewerContent() {
 
     // ---------------------------------------------
     // REMOVE ELEMENTS CONTAINING DEFAULT TEXT
-    // ONLY IF THEY ARE NOT CONTROLS
     // ---------------------------------------------
 
     const allElements =
@@ -596,68 +513,53 @@ function showViewerImage(
     image.style.position =
         "absolute";
 
-
     image.style.left =
         "0";
-
 
     image.style.top =
         "0";
 
-
     image.style.right =
         "0";
-
 
     image.style.bottom =
         "0";
 
-
     image.style.width =
         "100%";
-
 
     image.style.height =
         "100%";
 
-
     image.style.maxWidth =
         "none";
-
 
     image.style.maxHeight =
         "none";
 
-
     image.style.objectFit =
         "cover";
-
 
     image.style.objectPosition =
         "center";
 
-
     image.style.display =
         "block";
-
 
     image.style.margin =
         "0";
 
-
     image.style.padding =
         "0";
 
-
     image.style.border =
         "0";
-
 
     image.style.borderRadius =
         "0";
 
 
-    // Image stays behind controls
+    // Image behind controls
 
     image.style.zIndex =
         "1";
@@ -820,7 +722,7 @@ if (floorplan) {
 //
 // GENERATE
 // → VED 1
-// → Website is currently under development
+// → WEBSITE UNDER DEVELOPMENT
 // =====================================================
 
 if (generateBtn) {
@@ -898,7 +800,7 @@ if (generateBtn) {
 
 
                     // ---------------------------------
-                    // VED 1 + MESSAGE
+                    // VED 1
                     // ---------------------------------
 
                     showViewerImage(
@@ -1053,7 +955,6 @@ VED ArchFlow Architectural Visualization
 // RESET VIEW
 //
 // VED 1
-// WEBSITE IS CURRENTLY UNDER DEVELOPMENT
 // =====================================================
 
 if (viewReset) {
@@ -1087,7 +988,6 @@ if (viewReset) {
 // TOP VIEW
 //
 // VED 2
-// ACCURATE RESULTS. EXCEPTIONAL EXPERIENCES.
 // =====================================================
 
 if (viewTop) {
@@ -1121,7 +1021,6 @@ if (viewTop) {
 // PERSPECTIVE VIEW
 //
 // VED 3
-// THANKS FOR VISITING VED ARCHFLOW.
 // =====================================================
 
 if (viewPerspective) {
@@ -1333,7 +1232,7 @@ viewerStyle.innerHTML = `
 
 
 /* =========================================
-   MOBILE MESSAGE
+   MOBILE
 ========================================= */
 
 @media (max-width: 768px) {
@@ -1356,17 +1255,17 @@ document.head.appendChild(
 
 
 // =====================================================
-// NAVIGATION ACTIVE UNDERLINE CSS
+// NAVIGATION ACTIVE UNDERLINE
 //
-// DESKTOP / LAPTOP:
-// Hover = underline
-// No permanent active underline
+// DESKTOP:
+// ONLY HOVER
 //
 // MOBILE / TABLET:
-// Home active on page load
-// Tap Guide = underline moves to Guide
-// Tap History = underline moves to History
-// One underline only
+// ACTIVE CLASS ONLY
+//
+// IMPORTANT:
+// !important is used so this CSS
+// overrides any previous CSS.
 // =====================================================
 
 const navigationStyle =
@@ -1378,7 +1277,7 @@ const navigationStyle =
 navigationStyle.innerHTML = `
 
 /* =========================================
-   NAVIGATION LINK BASE
+   NAVIGATION BASE
 ========================================= */
 
 .nav-links a {
@@ -1387,11 +1286,24 @@ navigationStyle.innerHTML = `
 
     text-decoration: none !important;
 
+    border-bottom: none !important;
+
 }
 
 
 /* =========================================
-   REMOVE OLD UNDERLINE STATES
+   REMOVE ANY OLD UNDERLINES
+========================================= */
+
+.nav-links a::before {
+
+    content: none !important;
+
+}
+
+
+/* =========================================
+   UNDERLINE
 ========================================= */
 
 .nav-links a::after {
@@ -1408,13 +1320,14 @@ navigationStyle.innerHTML = `
 
     height: 2px !important;
 
+    border: 0 !important;
+
     border-radius: 10px !important;
 
     transform:
         translateX(-50%) !important;
 
     background:
-
         linear-gradient(
             90deg,
             var(--primary),
@@ -1422,7 +1335,6 @@ navigationStyle.innerHTML = `
         ) !important;
 
     transition:
-
         width 0.25s ease !important;
 
     pointer-events: none !important;
@@ -1451,10 +1363,7 @@ navigationStyle.innerHTML = `
     }
 
 
-    /*
-       Active class does not create
-       permanent underline on desktop.
-    */
+    /* No permanent active underline */
 
     .nav-links a.active::after {
 
@@ -1467,29 +1376,10 @@ navigationStyle.innerHTML = `
 
 /* =========================================
    MOBILE / TABLET
-   ACTIVE ITEM STAYS UNDERLINED
+   CLICKED ITEM STAYS ACTIVE
 ========================================= */
 
 @media (max-width: 768px) {
-
-    .nav-links a.active {
-
-        color: #FFFFFF !important;
-
-    }
-
-
-    .nav-links a.active::after {
-
-        width: 45px !important;
-
-    }
-
-
-    /*
-       Hover does NOT create another
-       underline on mobile/tablet.
-    */
 
     .nav-links a:hover::after {
 
@@ -1498,46 +1388,19 @@ navigationStyle.innerHTML = `
     }
 
 
-    /*
-       Only the active item gets underline.
-    */
-
-    .nav-links a:not(.active)::after {
-
-        width: 0 !important;
-
-    }
-
-
-    /*
-       Prevent browser tap/focus underline.
-    */
-
     .nav-links a:active::after {
 
-        width: 0 !important;
+        width: 45px !important;
 
     }
 
 
-    .nav-links a:focus::after {
+    .nav-links a.active {
 
-        width: 0 !important;
-
-    }
-
-
-    .nav-links a:focus-visible::after {
-
-        width: 0 !important;
+        color: #FFFFFF !important;
 
     }
 
-
-    /*
-       Re-enable underline for active
-       item even after tap/focus.
-    */
 
     .nav-links a.active::after {
 
@@ -1559,22 +1422,7 @@ navigationStyle.innerHTML = `
         -webkit-tap-highlight-color:
             transparent !important;
 
-        touch-action:
-            manipulation;
-
-    }
-
-
-    .nav-links a:not(.active)::after {
-
-        width: 0 !important;
-
-    }
-
-
-    .nav-links a.active::after {
-
-        width: 45px !important;
+        touch-action: manipulation;
 
     }
 
@@ -1657,37 +1505,7 @@ document.addEventListener(
 
         removeDefaultViewerContent();
 
-        /*
-           On mobile/tablet:
-           Home is active.
-
-           On desktop:
-           No active underline.
-           Hover controls underline.
-        */
-
-        if (
-            window.innerWidth <=
-            768
-        ) {
-
-            setActiveNavLink(
-                navLinks[0]
-            );
-
-        } else {
-
-            navLinks.forEach(
-                function(link) {
-
-                    link.classList.remove(
-                        "active"
-                    );
-
-                }
-            );
-
-        }
+        setInitialNavLink();
 
     }
 );
