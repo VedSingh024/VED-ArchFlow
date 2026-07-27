@@ -280,7 +280,7 @@ body {
 
 /* =====================================================
    NAVIGATION UNDERLINE
-   COMMON LINE
+   COMMON UNDERLINE ELEMENT
 ===================================================== */
 
 .nav-links a::after {
@@ -318,7 +318,7 @@ body {
 
 /* =====================================================
    PC / DESKTOP
-   CURSOR HOVER PAR PURPLE UNDERLINE
+   CURSOR HOVER PAR UNDERLINE
 ===================================================== */
 
 @media (min-width: 769px) {
@@ -334,12 +334,19 @@ body {
 
 /* =====================================================
    MOBILE / TABLET
-   TAP / PRESS PAR PURPLE UNDERLINE
+   ACTIVE TAP UNDERLINE
 ===================================================== */
 
 @media (max-width: 768px) {
 
-    .nav-links a:active::after {
+    .nav-links a.active {
+
+        color: #FFFFFF;
+
+    }
+
+
+    .nav-links a.active::after {
 
         width: 45px;
 
@@ -1126,7 +1133,9 @@ footer small {
 ===================================================== */
 
 
-/* TABLET + SMALL LAPTOP */
+/* =====================================================
+   TABLET + SMALL LAPTOP
+===================================================== */
 
 @media (max-width: 1024px) {
 
@@ -1174,7 +1183,9 @@ footer small {
 }
 
 
-/* TABLET */
+/* =====================================================
+   TABLET
+===================================================== */
 
 @media (max-width: 768px) {
 
@@ -1319,7 +1330,9 @@ footer small {
 }
 
 
-/* MOBILE */
+/* =====================================================
+   MOBILE
+===================================================== */
 
 @media (max-width: 480px) {
 
@@ -1576,7 +1589,9 @@ footer small {
 }
 
 
-/* VERY SMALL MOBILE */
+/* =====================================================
+   VERY SMALL MOBILE
+===================================================== */
 
 @media (max-width: 360px) {
 
@@ -1711,7 +1726,9 @@ footer small {
 }
 
 
-/* EXTRA SMALL DEVICES */
+/* =====================================================
+   EXTRA SMALL DEVICES
+===================================================== */
 
 @media (max-width: 320px) {
 
