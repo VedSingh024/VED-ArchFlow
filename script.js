@@ -9,7 +9,7 @@
 // Other links = hover underline
 //
 // MOBILE / TABLET:
-// Current page = permanent underline
+// Selected page = permanent underline
 //
 // Home = active on Home page
 // Guide = active on Guide page
@@ -120,18 +120,17 @@ if (downloadBtn) {
 // =====================================================
 // NAVIGATION ACTIVE STATE
 //
-// DESKTOP / LAPTOP:
-// Selected page keeps permanent underline.
+// CURRENT PAGE:
+// Permanent underline.
 //
-// Other links:
-// Hover shows temporary underline.
+// OTHER LINKS:
+// Hover underline.
 //
-// MOBILE / TABLET:
-// Selected page keeps permanent underline.
-//
-// IMPORTANT:
-// Current page is detected automatically.
-// Home is NOT forced active on every page.
+// This works on:
+// PC
+// Laptop
+// Tablet
+// Mobile
 // =====================================================
 
 function setActiveNavLink(activeLink) {
@@ -143,6 +142,9 @@ function setActiveNavLink(activeLink) {
     }
 
 
+    // Remove active class
+    // from every navigation link
+
     navLinks.forEach(
         function(link) {
 
@@ -153,6 +155,9 @@ function setActiveNavLink(activeLink) {
         }
     );
 
+
+    // Add active class
+    // only to selected/current page
 
     activeLink.classList.add(
         "active"
@@ -175,7 +180,7 @@ function setInitialNavLink() {
 
 
     // ---------------------------------------------
-    // GET CURRENT PAGE NAME
+    // GET CURRENT PAGE
     // ---------------------------------------------
 
     let currentPage =
@@ -186,8 +191,7 @@ function setInitialNavLink() {
 
 
     // ---------------------------------------------
-    // IF NO PAGE NAME
-    // DEFAULT TO HOME
+    // EMPTY PATH = HOME
     // ---------------------------------------------
 
     if (
@@ -202,7 +206,17 @@ function setInitialNavLink() {
 
 
     // ---------------------------------------------
-    // FIND CURRENT PAGE LINK
+    // REMOVE QUERY / HASH
+    // ---------------------------------------------
+
+    currentPage =
+        currentPage
+            .split("?")[0]
+            .split("#")[0];
+
+
+    // ---------------------------------------------
+    // FIND ACTIVE LINK
     // ---------------------------------------------
 
     let activeLink = null;
@@ -223,6 +237,8 @@ function setInitialNavLink() {
 
             }
 
+
+            // Clean href
 
             const cleanHref =
                 href
@@ -310,7 +326,7 @@ function setInitialNavLink() {
 
 
     // ---------------------------------------------
-    // SET CURRENT PAGE ACTIVE
+    // APPLY ACTIVE PAGE
     // ---------------------------------------------
 
     if (activeLink) {
@@ -338,15 +354,14 @@ function setInitialNavLink() {
 
 
 // =====================================================
-// NAVIGATION CLICK / TAP
+// NAVIGATION CLICK
 //
-// DESKTOP:
-// Clicked link becomes permanently selected.
+// Clicked page becomes active immediately.
 //
-// MOBILE / TABLET:
-// Clicked link becomes permanently selected.
+// Browser then navigates normally.
 //
-// The actual page navigation still happens normally.
+// On the new page, setInitialNavLink()
+// confirms the correct current page.
 // =====================================================
 
 navLinks.forEach(
@@ -368,22 +383,20 @@ navLinks.forEach(
 
 
 // =====================================================
-// SET CORRECT ACTIVE PAGE ON LOAD
+// INITIALIZE ACTIVE PAGE
 // =====================================================
 
 setInitialNavLink();
 
 
 // =====================================================
-// IMPORTANT:
+// IMPORTANT
 //
 // NO SCROLL ACTIVE NAVIGATION.
 //
 // Home will NOT become active while scrolling.
 //
-// The current page controls the active state.
-//
-// Clicking another page changes its active state.
+// Only the actual current page is active.
 // =====================================================
 
 
@@ -401,7 +414,7 @@ function removeDefaultViewerContent() {
 
 
     // ---------------------------------------------
-    // REMOVE COMMON EMPTY PLACEHOLDER ELEMENTS
+    // REMOVE COMMON EMPTY PLACEHOLDERS
     // ---------------------------------------------
 
     const emptyElements =
@@ -493,7 +506,7 @@ function removeDefaultViewerContent() {
             }
 
 
-            // Remove default placeholder text
+            // Remove placeholder text
 
             if (
 
@@ -817,7 +830,7 @@ if (floorplan) {
             }
 
 
-            // Enable generate
+            // Enable generate button
 
             if (generateBtn) {
 
@@ -879,7 +892,7 @@ if (generateBtn) {
             removeDefaultViewerContent();
 
 
-            // Generating
+            // Generating state
 
             generateBtn.disabled =
                 true;
@@ -908,7 +921,7 @@ if (generateBtn) {
                         true;
 
 
-                    // VED 1
+                    // Show VED IMAGE 1
 
                     showViewerImage(
 
@@ -1318,24 +1331,19 @@ document.head.appendChild(
 // =====================================================
 // NAVIGATION ACTIVE UNDERLINE CSS
 //
-// DESKTOP / LAPTOP:
-// Selected page = permanent underline
+// PC + LAPTOP:
+// Current selected page = permanent underline
 // Other links = hover underline
 //
-// MOBILE / TABLET:
-// Selected page = permanent underline
+// MOBILE + TABLET:
+// Current selected page = permanent underline
 //
 // IMPORTANT:
 //
-// Active link NEVER loses its underline
-// when cursor is placed over it.
-//
-// When another link is hovered,
-// that link gets temporary underline.
-//
-// When another link is clicked,
-// it becomes permanently selected.
-//
+// Active link ALWAYS keeps underline.
+// Hovering active link does NOT remove underline.
+// Hovering another link shows its hover underline.
+// Clicking another page makes it permanently active.
 // =====================================================
 
 const navigationStyle =
@@ -1348,7 +1356,7 @@ navigationStyle.innerHTML = `
 
 
 /* =========================================
-   BASE NAVIGATION
+   BASE NAVIGATION LINK
 ========================================= */
 
 .nav-links a {
@@ -1405,7 +1413,7 @@ navigationStyle.innerHTML = `
 
 /* =========================================
    ACTIVE / SELECTED PAGE
-   PC + MOBILE
+   ALL DEVICES
 ========================================= */
 
 .nav-links a.active {
@@ -1448,10 +1456,10 @@ navigationStyle.innerHTML = `
 
 
     /* -----------------------------------------
-       NON-ACTIVE LINK HOVER
+       NON-ACTIVE HOVER
        
-       Only links which are NOT selected
-       get temporary hover underline.
+       Other buttons get underline
+       when cursor is over them.
     ----------------------------------------- */
 
     .nav-links a:not(.active):hover::after {
@@ -1466,11 +1474,12 @@ navigationStyle.innerHTML = `
 
 
     /* -----------------------------------------
-       ACTIVE LINK
+       ACTIVE PAGE
        
-       Always remains underlined.
+       ALWAYS UNDERLINED.
        
-       Even when cursor moves over it.
+       Cursor over active button
+       will NOT remove underline.
     ----------------------------------------- */
 
     .nav-links a.active::after {
@@ -1618,10 +1627,6 @@ document.head.appendChild(
 
 // =====================================================
 // FINAL INITIALIZATION
-//
-// IMPORTANT:
-// Active navigation is already initialized above.
-// Do not reset it again here.
 // =====================================================
 
 document.addEventListener(
@@ -1629,6 +1634,11 @@ document.addEventListener(
     function() {
 
         removeDefaultViewerContent();
+
+        // Make sure current page
+        // remains correctly selected
+
+        setInitialNavLink();
 
     }
 );
