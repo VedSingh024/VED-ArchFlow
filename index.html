@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>VED ArchFlow</title>
+
+    <meta
+        name="description"
+        content="AI Powered Architectural Visualization Platform"
+    >
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="./style.css">
+
+</head>
+
+
+<body>
+
+
+<header class="navbar">
+
+    <div class="logo">
+        <span>VED</span> ArchFlow
+    </div>
+
+    <nav class="nav-links">
+
+        <a href="./index.html">
+            Home
+        </a>
+
+        <a href="./guide.html">
+            Guide
+        </a>
+
+        <a href="./history.html">
+            History
+        </a>
+
+    </nav>
+
+</header>
+
+
+
+<main>
+
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <h1>
+            Turn 2D Floor Plans Into
+            <span>Stunning 3D Experiences</span>
+        </h1>
+
+        <p>
+            AI-powered architectural visualization from simple floor plans.
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<section class="upload-section">
+
+
+    <button
+        id="uploadBtn"
+        class="primary-btn"
+        type="button"
+    >
+        Choose Floor Plan
+    </button>
+
+
+    <input
+        type="file"
+        id="floorplan"
+        accept="image/png,image/jpeg,image/jpg"
+        hidden
+    >
+
+
+    <button
+        id="generateBtn"
+        class="primary-btn"
+        type="button"
+        disabled
+    >
+        Generate 3D Model
+    </button>
+
+
+</section>
+
+
+
+<section class="preview-section">
+
+
+    <div class="preview-heading">
+
+        <h2>
+            3D Preview
+        </h2>
+
+        <p>
+            Interactive architectural viewport
+        </p>
+
+    </div>
+
+
+
+    <div
+        id="viewer"
+        class="viewport"
+    >
+
+
+        <div class="viewport-topbar">
+
+            <div class="viewport-brand">
+                VED ArchFlow
+            </div>
+
+            <div
+                id="viewportMode"
+                class="viewport-mode"
+            >
+                Perspective
+            </div>
+
+        </div>
+
+
+
+        <div
+            id="viewerContent"
+            class="viewer-content"
+        >
+
+            <div class="viewer-empty">
+
+                <div class="empty-icon">
+                    3D
+                </div>
+
+                <h3>
+                    No 3D Model Yet
+                </h3>
+
+                <p>
+                    Choose a floor plan and generate your 3D model.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="viewport-controls">
+
+            <button
+                id="viewReset"
+                type="button"
+            >
+                Reset View
+            </button>
+
+
+            <button
+                id="viewTop"
+                type="button"
+            >
+                Top
+            </button>
+
+
+            <button
+                id="viewPerspective"
+                type="button"
+            >
+                Perspective
+            </button>
+
+        </div>
+
+
+
+        <div class="viewport-axis">
+
+            <span class="axis-x">
+                X
+            </span>
+
+            <span class="axis-y">
+                Y
+            </span>
+
+            <span class="axis-z">
+                Z
+            </span>
+
+        </div>
+
+
+    </div>
+
+
+
+    <button
+        id="downloadBtn"
+        class="primary-btn"
+        type="button"
+        disabled
+    >
+        Download 3D Model
+    </button>
+
+
+</section>
+
+
+</main>
+
+
+
+<footer>
+
+    <p>
+        AI Powered Architectural Visualization Platform
+    </p>
+
+    <small>
+        © 2026 VED ArchFlow. All Rights Reserved.
+    </small>
+
+</footer>
+
+
+
+<script src="./script.js"></script>
+
+
+</body>
+
+</html>

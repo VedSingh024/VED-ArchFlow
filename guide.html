@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>VED ARCHFLOW / GUIDE</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="./style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         NAVBAR
+    ========================================== -->
+
+    <header class="navbar">
+
+        <div class="logo">
+            <span>VED</span> ArchFlow
+        </div>
+
+
+        <nav class="nav-links">
+
+            <a href="./index.html">
+                Home
+            </a>
+
+            <a href="./guide.html">
+                Guide
+            </a>
+
+            <a href="./history.html">
+                History
+            </a>
+
+        </nav>
+
+    </header>
+
+
+
+    <!-- =========================================
+         GUIDE
+    ========================================== -->
+
+    <main class="guide-page">
+
+
+        <div class="guide-label">
+            VED ARCHFLOW / GUIDE
+        </div>
+
+
+
+        <!-- =========================================
+             FOUR FULL-WIDTH BOXES
+        ========================================== -->
+
+        <section class="guide-grid">
+
+
+            <!-- BOX 01 -->
+
+            <div class="guide-card">
+
+                <span class="guide-number">
+                    01
+                </span>
+
+
+                <div class="guide-title">
+
+                    <h2>
+                        Upload Your Plan
+                    </h2>
+
+                </div>
+
+
+                <p>
+                    Select your 2D floor plan in JPG, JPEG, or PNG format and prepare it for architectural visualization.
+                </p>
+
+            </div>
+
+
+
+            <!-- BOX 02 -->
+
+            <div class="guide-card">
+
+                <span class="guide-number">
+                    02
+                </span>
+
+
+                <div class="guide-title">
+
+                    <h2>
+                        Generate Your Experience
+                    </h2>
+
+                </div>
+
+
+                <p>
+                    Start the generation process and transform your architectural layout into an immersive visual experience.
+                </p>
+
+            </div>
+
+
+
+            <!-- BOX 03 -->
+
+            <div class="guide-card">
+
+                <span class="guide-number">
+                    03
+                </span>
+
+
+                <div class="guide-title">
+
+                    <h2>
+                        Explore the Preview
+                    </h2>
+
+                </div>
+
+
+                <p>
+                    Navigate through the available views and explore your generated architectural experience.
+                </p>
+
+            </div>
+
+
+
+            <!-- BOX 04 -->
+
+            <div class="guide-card">
+
+                <span class="guide-number">
+                    04
+                </span>
+
+
+                <div class="guide-title">
+
+                    <h2>
+                        Download Your Result
+                    </h2>
+
+                </div>
+
+
+                <p>
+                    Download your generated result and continue your architectural workflow.
+                </p>
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
+
+    <footer>
+
+        <p>
+            AI Powered Architectural Visualization Platform
+        </p>
+
+        <small>
+            © 2026 VED ArchFlow. All Rights Reserved.
+        </small>
+
+    </footer>
+
+
+
+    <!-- =========================================
+         GUIDE PAGE STYLE
+    ========================================== -->
+
+    <style>
+
+
+        /* =========================================
+           FULL GUIDE PAGE
+        ========================================== */
+
+        .guide-page {
+
+            width: 100%;
+
+            max-width: none;
+
+            margin: 0;
+
+            padding:
+                80px
+                0
+                100px;
+
+            box-sizing: border-box;
+
+        }
+
+
+
+        /* =========================================
+           ONLY GUIDE LABEL
+           CENTER ALIGNED
+        ========================================== */
+
+        .guide-label {
+
+            width: 100%;
+
+            padding:
+                0
+                4vw;
+
+            margin:
+                0
+                0
+                55px;
+
+            box-sizing: border-box;
+
+            font-family:
+                "Inter",
+                sans-serif;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            letter-spacing: 3px;
+
+            text-align: center;
+
+            color:
+                rgba(
+                    124,
+                    140,
+                    255,
+                    0.9
+                );
+
+            text-transform: uppercase;
+
+        }
+
+
+
+        /* =========================================
+           FULL WIDTH BOX CONTAINER
+        ========================================== */
+
+        .guide-grid {
+
+            width: 100%;
+
+            max-width: none;
+
+            margin: 0;
+
+            padding:
+                0
+                2vw;
+
+            box-sizing: border-box;
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 14px;
+
+        }
+
+
+
+        /* =========================================
+           FULL WIDTH GLASS BOX
+        ========================================== */
+
+        .guide-card {
+
+            width: 100%;
+
+            min-height: 115px;
+
+            box-sizing: border-box;
+
+            padding:
+                25px
+                4vw;
+
+            display: grid;
+
+            grid-template-columns:
+                70px
+                minmax(
+                    260px,
+                    0.8fr
+                )
+                minmax(
+                    350px,
+                    1.5fr
+                );
+
+            align-items: center;
+
+            gap: 40px;
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.08
+                );
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(
+                        255,
+                        255,
+                        255,
+                        0.055
+                    ),
+                    rgba(
+                        255,
+                        255,
+                        255,
+                        0.015
+                    )
+                );
+
+            backdrop-filter:
+                blur(18px);
+
+            -webkit-backdrop-filter:
+                blur(18px);
+
+            box-shadow:
+                inset
+                0
+                1px
+                0
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.04
+                ),
+
+                0
+                15px
+                45px
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.12
+                );
+
+            transition:
+                transform
+                0.25s
+                ease,
+
+                border-color
+                0.25s
+                ease;
+
+        }
+
+
+
+        /* =========================================
+           HOVER
+        ========================================== */
+
+        .guide-card:hover {
+
+            transform:
+                translateY(
+                    -2px
+                );
+
+            border-color:
+                rgba(
+                    124,
+                    92,
+                    255,
+                    0.3
+                );
+
+        }
+
+
+
+        /* =========================================
+           NUMBER
+        ========================================== */
+
+        .guide-number {
+
+            font-family:
+                "Space Grotesk",
+                sans-serif;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            letter-spacing: 1px;
+
+            color:
+                #7C8CFF;
+
+        }
+
+
+
+        /* =========================================
+           TITLE
+        ========================================== */
+
+        .guide-card h2 {
+
+            margin: 0;
+
+            font-family:
+                "Space Grotesk",
+                sans-serif;
+
+            font-size: 20px;
+
+            line-height: 1.25;
+
+            font-weight: 600;
+
+            color:
+                #ffffff;
+
+        }
+
+
+
+        /* =========================================
+           DESCRIPTION
+        ========================================== */
+
+        .guide-card p {
+
+            margin: 0;
+
+            font-family:
+                "Inter",
+                sans-serif;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+
+            color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.55
+                );
+
+        }
+
+
+
+        /* =========================================
+           LARGE SCREENS
+        ========================================== */
+
+        @media (min-width: 1400px) {
+
+            .guide-grid {
+
+                padding:
+                    0
+                    1.5vw;
+
+            }
+
+
+            .guide-card {
+
+                padding:
+                    28px
+                    3vw;
+
+            }
+
+        }
+
+
+
+        /* =========================================
+           TABLET
+        ========================================== */
+
+        @media (max-width: 900px) {
+
+            .guide-card {
+
+                grid-template-columns:
+                    55px
+                    1fr;
+
+                gap:
+                    15px
+                    25px;
+
+            }
+
+
+            .guide-card p {
+
+                grid-column:
+                    2;
+
+            }
+
+        }
+
+
+
+        /* =========================================
+           MOBILE
+        ========================================== */
+
+        @media (max-width: 600px) {
+
+            .guide-page {
+
+                padding:
+                    60px
+                    0
+                    80px;
+
+            }
+
+
+            .guide-label {
+
+                padding:
+                    0
+                    25px;
+
+                margin-bottom:
+                    40px;
+
+                font-size:
+                    10px;
+
+                letter-spacing:
+                    2px;
+
+                text-align:
+                    center;
+
+            }
+
+
+            .guide-grid {
+
+                padding:
+                    0
+                    12px;
+
+                gap:
+                    10px;
+
+            }
+
+
+            .guide-card {
+
+                min-height:
+                    150px;
+
+                padding:
+                    24px;
+
+                grid-template-columns:
+                    42px
+                    1fr;
+
+                gap:
+                    12px
+                    18px;
+
+            }
+
+
+            .guide-card h2 {
+
+                font-size:
+                    18px;
+
+            }
+
+
+            .guide-card p {
+
+                grid-column:
+                    1 / -1;
+
+                font-size:
+                    12px;
+
+            }
+
+        }
+
+
+    </style>
+
+
+</body>
+
+</html>
