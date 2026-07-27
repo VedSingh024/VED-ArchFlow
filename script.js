@@ -2,7 +2,7 @@
 // VED ARCHFLOW
 // FINAL FRONTEND CONTROLLER
 // IMAGE VIEWER + VIEW BUTTONS + CENTER MESSAGES
-// NAVIGATION ACTIVE STATE + MOBILE TAP UNDERLINE
+// MOBILE NAVIGATION TAP UNDERLINE FIX
 // =====================================================
 
 
@@ -121,21 +121,18 @@ if (downloadBtn) {
 // Only hover underline.
 //
 // MOBILE / TABLET:
-// Active tapped item keeps underline.
+// Only tapped link gets underline.
+// Home is NOT automatically active.
+// Underline moves when another link is tapped.
 //
 // IMPORTANT:
-// Desktop active class does NOT
-// create permanent underline.
+// No scroll-based active state.
+// No automatic first-link active state.
 // =====================================================
 
-function setActiveNavLink(activeLink) {
-
-    if (!activeLink) {
-
-        return;
-
-    }
-
+function setActiveNavLink(
+    activeLink
+) {
 
     navLinks.forEach(
         function(link) {
@@ -148,9 +145,16 @@ function setActiveNavLink(activeLink) {
     );
 
 
-    activeLink.classList.add(
-        "active"
-    );
+    if (
+        activeLink &&
+        window.innerWidth <= 768
+    ) {
+
+        activeLink.classList.add(
+            "active"
+        );
+
+    }
 
 }
 
@@ -166,9 +170,20 @@ navLinks.forEach(
             "click",
             function() {
 
-                setActiveNavLink(
-                    link
-                );
+                // -------------------------------------
+                // MOBILE / TABLET
+                // -------------------------------------
+
+                if (
+                    window.innerWidth <=
+                    768
+                ) {
+
+                    setActiveNavLink(
+                        link
+                    );
+
+                }
 
             }
         );
@@ -178,76 +193,27 @@ navLinks.forEach(
 
 
 // =====================================================
-// SET INITIAL NAVIGATION
+// DESKTOP MODE
+//
+// Remove active underline completely.
+// Desktop uses hover only.
 // =====================================================
 
-function setInitialNavLink() {
-
-    if (!navLinks.length) {
-
-        return;
-
-    }
-
-
-    let foundActive =
-        false;
-
-
-    const currentPath =
-        window.location.pathname;
-
-
-    navLinks.forEach(
-        function(link) {
-
-            const href =
-                link.getAttribute(
-                    "href"
-                );
-
-
-            if (!href) {
-
-                return;
-
-            }
-
-
-            // -----------------------------------------
-            // CURRENT PAGE LINK
-            // -----------------------------------------
-
-            if (
-                href ===
-                currentPath
-            ) {
-
-                setActiveNavLink(
-                    link
-                );
-
-                foundActive =
-                    true;
-
-            }
-
-        }
-    );
-
-
-    // ---------------------------------------------
-    // MOBILE / TABLET
-    // FIRST ITEM ACTIVE BY DEFAULT
-    // ---------------------------------------------
+function clearDesktopActiveState() {
 
     if (
-        !foundActive &&
-        window.innerWidth <= 768
+        window.innerWidth >
+        768
     ) {
 
-        setActiveNavLink(
-            navLinks[0]
+        navLinks.forEach(
+            function(link) {
+
+                link.classList.remove(
+                    "active"
+                );
+
+            }
         );
 
     }
@@ -255,122 +221,19 @@ function setInitialNavLink() {
 }
 
 
+clearDesktopActiveState();
+
+
 // =====================================================
-// SCROLL-BASED ACTIVE NAVIGATION
-//
-// Only activates when links point
-// to actual page sections.
-//
-// Example:
-//
-// #home
-// #guide
-// #history
-//
-// Desktop:
-// No permanent underline.
-//
-// Mobile / Tablet:
-// Active section gets underline.
+// RESPONSIVE SCREEN CHANGE
 // =====================================================
-
-const sections =
-    document.querySelectorAll(
-        "section[id], main[id], div[id]"
-    );
-
-
-function updateActiveNavOnScroll() {
-
-    if (!sections.length) {
-
-        return;
-
-    }
-
-
-    let currentSection =
-        "";
-
-
-    const scrollPosition =
-        window.scrollY +
-        180;
-
-
-    sections.forEach(
-        function(section) {
-
-            const sectionTop =
-                section.offsetTop;
-
-            const sectionHeight =
-                section.offsetHeight;
-
-
-            if (
-
-                scrollPosition >=
-                sectionTop
-
-                &&
-
-                scrollPosition <
-                sectionTop +
-                sectionHeight
-
-            ) {
-
-                currentSection =
-                    section.getAttribute(
-                        "id"
-                    );
-
-            }
-
-        }
-    );
-
-
-    if (!currentSection) {
-
-        return;
-
-    }
-
-
-    navLinks.forEach(
-        function(link) {
-
-            const href =
-                link.getAttribute(
-                    "href"
-                );
-
-
-            if (
-                href ===
-                "#" +
-                currentSection
-            ) {
-
-                setActiveNavLink(
-                    link
-                );
-
-            }
-
-        }
-    );
-
-}
-
 
 window.addEventListener(
-    "scroll",
-    updateActiveNavOnScroll,
-    {
-        passive: true
+    "resize",
+    function() {
+
+        clearDesktopActiveState();
+
     }
 );
 
@@ -382,7 +245,7 @@ window.addEventListener(
 // No 3D Model Yet
 // Choose a Floor Plan
 // Upload a Floor Plan
-// No Model Yet
+// Any default empty viewer text
 //
 // DOES NOT REMOVE:
 // Reset View
@@ -456,9 +319,7 @@ function removeDefaultViewerContent() {
                     .toLowerCase();
 
 
-            // -----------------------------------------
-            // NEVER TOUCH VIEWPORT CONTROLS
-            // -----------------------------------------
+            // Never touch viewport controls
 
             if (
                 element.closest(
@@ -471,9 +332,7 @@ function removeDefaultViewerContent() {
             }
 
 
-            // -----------------------------------------
-            // NEVER TOUCH TOP BAR
-            // -----------------------------------------
+            // Never touch top bar
 
             if (
                 element.closest(
@@ -486,9 +345,7 @@ function removeDefaultViewerContent() {
             }
 
 
-            // -----------------------------------------
-            // NEVER TOUCH AXIS
-            // -----------------------------------------
+            // Never touch axis
 
             if (
                 element.closest(
@@ -501,9 +358,7 @@ function removeDefaultViewerContent() {
             }
 
 
-            // -----------------------------------------
-            // REMOVE DEFAULT PLACEHOLDER TEXT
-            // -----------------------------------------
+            // Remove default placeholder text
 
             if (
 
@@ -661,53 +516,68 @@ function showViewerImage(
     image.style.position =
         "absolute";
 
+
     image.style.left =
         "0";
+
 
     image.style.top =
         "0";
 
+
     image.style.right =
         "0";
+
 
     image.style.bottom =
         "0";
 
+
     image.style.width =
         "100%";
+
 
     image.style.height =
         "100%";
 
+
     image.style.maxWidth =
         "none";
+
 
     image.style.maxHeight =
         "none";
 
+
     image.style.objectFit =
         "cover";
+
 
     image.style.objectPosition =
         "center";
 
+
     image.style.display =
         "block";
+
 
     image.style.margin =
         "0";
 
+
     image.style.padding =
         "0";
 
+
     image.style.border =
         "0";
+
 
     image.style.borderRadius =
         "0";
 
 
-    // Image behind controls
+    // Image stays behind controls
 
     image.style.zIndex =
         "1";
@@ -723,7 +593,7 @@ function showViewerImage(
 
 
     // ---------------------------------------------
-    // CREATE CENTER MESSAGE
+    // CREATE ONLY REQUESTED CENTER MESSAGE
     // ---------------------------------------------
 
     if (message) {
@@ -1103,7 +973,7 @@ VED ArchFlow Architectural Visualization
 // RESET VIEW
 //
 // VED 1
-// WEBSITE IS CURRENTLY UNDER DEVELOPMENT.
+// WEBSITE IS CURRENTLY UNDER DEVELOPMENT
 // =====================================================
 
 if (viewReset) {
@@ -1203,6 +1073,24 @@ if (viewPerspective) {
 
 // =====================================================
 // VIEWER CSS
+//
+// IMAGE:
+// FULL WIDTH
+// FULL HEIGHT
+// NO BORDER
+//
+// MESSAGE:
+// SMALL
+// CENTER
+// LIGHT
+// FADED
+//
+// CONTROLS:
+// ABOVE IMAGE
+// CLICKABLE
+//
+// DEFAULT PLACEHOLDER:
+// HIDDEN
 // =====================================================
 
 const viewerStyle =
@@ -1272,7 +1160,7 @@ viewerStyle.innerHTML = `
 
 
 /* =========================================
-   CENTER MESSAGE
+   ONLY CENTER MESSAGE
 ========================================= */
 
 #viewer .archflow-viewer-message {
@@ -1345,6 +1233,7 @@ viewerStyle.innerHTML = `
 
 /* =========================================
    VIEWPORT CONTROLS
+   ABOVE IMAGE
 ========================================= */
 
 #viewer .viewport-controls {
@@ -1358,6 +1247,7 @@ viewerStyle.innerHTML = `
 
 /* =========================================
    VIEWPORT TOP BAR
+   ABOVE IMAGE
 ========================================= */
 
 #viewer .viewport-topbar {
@@ -1371,6 +1261,7 @@ viewerStyle.innerHTML = `
 
 /* =========================================
    VIEWPORT AXIS
+   ABOVE IMAGE
 ========================================= */
 
 #viewer .viewport-axis {
@@ -1409,13 +1300,15 @@ document.head.appendChild(
 // NAVIGATION ACTIVE UNDERLINE CSS
 //
 // DESKTOP:
-// Hover = underline ONLY
+// Hover = underline
 //
 // MOBILE / TABLET:
-// Active = underline
+// Only tapped link = underline
 //
-// FIX:
-// Desktop .active DOES NOT show underline
+// IMPORTANT:
+// No default Home underline.
+// No scroll-based underline.
+// No automatic active link.
 // =====================================================
 
 const navigationStyle =
@@ -1434,11 +1327,31 @@ navigationStyle.innerHTML = `
 
     position: relative;
 
+    text-decoration: none !important;
+
 }
 
 
 /* =========================================
-   REMOVE ANY DEFAULT UNDERLINE
+   REMOVE ANY OLD ACTIVE / FOCUS UNDERLINE
+========================================= */
+
+.nav-links a:focus {
+
+    outline: none;
+
+}
+
+
+.nav-links a:focus-visible {
+
+    outline: none;
+
+}
+
+
+/* =========================================
+   UNDERLINE BASE
 ========================================= */
 
 .nav-links a::after {
@@ -1469,6 +1382,7 @@ navigationStyle.innerHTML = `
         );
 
     transition:
+
         width 0.25s ease;
 
     pointer-events: none;
@@ -1478,7 +1392,7 @@ navigationStyle.innerHTML = `
 
 /* =========================================
    DESKTOP
-   HOVER ONLY
+   ONLY HOVER
 ========================================= */
 
 @media (min-width: 769px) {
@@ -1497,10 +1411,7 @@ navigationStyle.innerHTML = `
     }
 
 
-    /* IMPORTANT:
-       Active class has NO underline
-       on desktop.
-    */
+    /* Active class has NO underline */
 
     .nav-links a.active::after {
 
@@ -1513,10 +1424,20 @@ navigationStyle.innerHTML = `
 
 /* =========================================
    MOBILE + TABLET
-   ACTIVE UNDERLINE
+   ONLY ACTIVE LINK
 ========================================= */
 
 @media (max-width: 768px) {
+
+    .nav-links a {
+
+        -webkit-tap-highlight-color:
+            transparent;
+
+        touch-action: manipulation;
+
+    }
+
 
     .nav-links a.active {
 
@@ -1531,29 +1452,26 @@ navigationStyle.innerHTML = `
 
     }
 
-
-    .nav-links a:active::after {
-
-        width: 45px;
-
-    }
-
 }
 
 
 /* =========================================
-   TOUCH DEVICES
+   MOBILE
+   REMOVE HOVER EFFECT
 ========================================= */
 
 @media (hover: none) and (pointer: coarse) {
 
-    .nav-links a {
+    .nav-links a:hover {
 
-        -webkit-tap-highlight-color:
-            transparent;
+        color: inherit;
 
-        touch-action:
-            manipulation;
+    }
+
+
+    .nav-links a:hover::after {
+
+        width: 0;
 
     }
 
@@ -1629,6 +1547,12 @@ document.head.appendChild(
 // =====================================================
 // FINAL INITIALIZATION
 // =====================================================
+//
+// IMPORTANT:
+// Do NOT set Home active automatically.
+// Do NOT use scroll-based navigation state.
+// Mobile underline appears ONLY after tapping.
+// =====================================================
 
 document.addEventListener(
     "DOMContentLoaded",
@@ -1636,9 +1560,18 @@ document.addEventListener(
 
         removeDefaultViewerContent();
 
-        setInitialNavLink();
+        // Clear any active class that may
+        // already exist in HTML on page load.
 
-        updateActiveNavOnScroll();
+        navLinks.forEach(
+            function(link) {
+
+                link.classList.remove(
+                    "active"
+                );
+
+            }
+        );
 
     }
 );
