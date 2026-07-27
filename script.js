@@ -57,13 +57,13 @@ let modelURL = null;
 // =====================================================
 
 const VED_IMAGE_1 =
-    new URL("./ved 1.png", document.baseURI).href;
+    new URL("./ved 1.PNG", document.baseURI).href;
 
 const VED_IMAGE_2 =
-    new URL("./ved 2.png", document.baseURI).href;
+    new URL("./ved 2.PNG", document.baseURI).href;
 
 const VED_IMAGE_3 =
-    new URL("./ved 3.png", document.baseURI).href;
+    new URL("./ved 3.PNG", document.baseURI).href;
 
 
 // =====================================================
