@@ -2,7 +2,15 @@
 // VED ARCHFLOW
 // FINAL FRONTEND CONTROLLER
 // IMAGE VIEWER + VIEW BUTTONS + CENTER MESSAGES
-// NAVIGATION HOVER + MOBILE ACTIVE UNDERLINE
+// NAVIGATION ACTIVE STATE
+//
+// DESKTOP / LAPTOP:
+// Hover = underline only
+//
+// MOBILE / TABLET:
+// Selected link = permanent underline
+// Home starts active
+// Clicking Guide/History moves underline
 // =====================================================
 
 
@@ -109,18 +117,20 @@ if (downloadBtn) {
 // =====================================================
 // NAVIGATION ACTIVE STATE
 //
-// DESKTOP:
-// CSS handles hover underline.
-//
-// MOBILE / TABLET:
-// JavaScript adds active class to the
-// exact link that was tapped.
-//
 // IMPORTANT:
-// No scroll listener.
-// No automatic section detection.
-// This prevents Home from becoming active
-// again automatically.
+//
+// Desktop:
+// No permanent active class.
+// Only CSS hover underline.
+//
+// Mobile / Tablet:
+// Active class stays on selected link.
+//
+// This function ONLY changes the selected
+// navigation link.
+//
+// It does NOT automatically switch back
+// to Home while scrolling.
 // =====================================================
 
 function setActiveNavLink(activeLink) {
@@ -153,7 +163,13 @@ function setActiveNavLink(activeLink) {
 // =====================================================
 // NAVIGATION CLICK / TAP
 //
-// EXACTLY THE CLICKED LINK GETS ACTIVE
+// MOBILE / TABLET:
+// The clicked link becomes active.
+//
+// DESKTOP:
+// Active class is still updated internally,
+// but CSS hides permanent underline.
+// Hover controls underline.
 // =====================================================
 
 navLinks.forEach(
@@ -175,14 +191,14 @@ navLinks.forEach(
 
 
 // =====================================================
-// INITIAL MOBILE ACTIVE LINK
+// INITIAL NAVIGATION
 //
-// ONLY FIRST NAV LINK = HOME
-// ON MOBILE / TABLET
+// HOME IS ACTIVE BY DEFAULT
 //
-// DESKTOP:
-// NO ACTIVE CLASS.
-// DESKTOP IS PURE HOVER.
+// IMPORTANT:
+// We DO NOT compare pathname.
+// We DO NOT use scroll detection.
+// This prevents Home from being forced active.
 // =====================================================
 
 function setInitialNavLink() {
@@ -194,7 +210,7 @@ function setInitialNavLink() {
     }
 
 
-    // Remove any old active class
+    // Remove active from everything first
 
     navLinks.forEach(
         function(link) {
@@ -207,17 +223,71 @@ function setInitialNavLink() {
     );
 
 
-    // Mobile / Tablet only
+    // Find Home link
 
-    if (
-        window.innerWidth <=
-        768
-    ) {
+    let homeLink = null;
 
-        // Home is first link
 
-        navLinks[0].classList.add(
-            "active"
+    navLinks.forEach(
+        function(link) {
+
+            const text =
+                link.textContent
+                    .trim()
+                    .toLowerCase();
+
+
+            const href =
+                link.getAttribute(
+                    "href"
+                );
+
+
+            if (
+
+                text === "home"
+
+                ||
+
+                href === "#home"
+
+                ||
+
+                href === "index.html"
+
+                ||
+
+                href === "./index.html"
+
+            ) {
+
+                homeLink =
+                    link;
+
+            }
+
+        }
+    );
+
+
+    // If Home exists, make it active
+
+    if (homeLink) {
+
+        setActiveNavLink(
+            homeLink
+        );
+
+    }
+
+    // Fallback:
+    // If Home was not found,
+    // activate first link.
+
+    else {
+
+        setActiveNavLink(
+            navLinks[0]
         );
 
     }
@@ -226,31 +296,32 @@ function setInitialNavLink() {
 
 
 // =====================================================
-// INITIAL NAVIGATION
+// SET HOME ACTIVE ON PAGE LOAD
 // =====================================================
 
 setInitialNavLink();
 
 
 // =====================================================
-// IMPORTANT
+// IMPORTANT:
 //
-// NO SCROLL BASED ACTIVE NAVIGATION.
+// SCROLL ACTIVE NAVIGATION IS DISABLED.
 //
-// DO NOT ADD:
+// Previously this function was detecting
+// sections and repeatedly setting Home active.
 //
-// window.addEventListener("scroll", ...)
+// That was the reason:
+// Home underline worked,
+// Guide / History underline disappeared.
 //
-// Because that was forcing Home / another section
-// to become active automatically.
+// Now clicking controls the active state.
 //
-// The underline now moves ONLY when the user
-// taps another navigation button.
+// DO NOT ADD SCROLL ACTIVE LOGIC HERE.
 // =====================================================
 
 
 // =====================================================
-// REMOVE DEFAULT VIEWER PLACEHOLDER
+// REMOVE DEFAULT VIEWER CONTENT
 // =====================================================
 
 function removeDefaultViewerContent() {
@@ -298,7 +369,7 @@ function removeDefaultViewerContent() {
 
 
     // ---------------------------------------------
-    // REMOVE ELEMENTS CONTAINING DEFAULT TEXT
+    // REMOVE DEFAULT TEXT
     // ---------------------------------------------
 
     const allElements =
@@ -316,7 +387,7 @@ function removeDefaultViewerContent() {
                     .toLowerCase();
 
 
-            // Never touch viewport controls
+            // Never touch controls
 
             if (
                 element.closest(
@@ -408,10 +479,6 @@ removeDefaultViewerContent();
 
 // =====================================================
 // SHOW VIEWER IMAGE
-//
-// IMAGE + ONE CENTER MESSAGE
-//
-// EXISTING VIEWPORT BUTTONS ARE NOT REMOVED
 // =====================================================
 
 function showViewerImage(
@@ -434,7 +501,7 @@ function showViewerImage(
 
 
     // ---------------------------------------------
-    // REMOVE PREVIOUS ARCHFLOW IMAGE
+    // REMOVE PREVIOUS IMAGE
     // ---------------------------------------------
 
     const oldImage =
@@ -451,7 +518,7 @@ function showViewerImage(
 
 
     // ---------------------------------------------
-    // REMOVE PREVIOUS ARCHFLOW MESSAGE
+    // REMOVE PREVIOUS MESSAGE
     // ---------------------------------------------
 
     const oldMessage =
@@ -507,7 +574,7 @@ function showViewerImage(
 
 
     // ---------------------------------------------
-    // FULL VIEWER IMAGE
+    // IMAGE POSITION
     // ---------------------------------------------
 
     image.style.position =
@@ -557,9 +624,6 @@ function showViewerImage(
 
     image.style.borderRadius =
         "0";
-
-
-    // Image behind controls
 
     image.style.zIndex =
         "1";
@@ -666,17 +730,13 @@ if (floorplan) {
             }
 
 
-            // -----------------------------------------
-            // SAVE SELECTED FILE
-            // -----------------------------------------
+            // Save selected file
 
             selectedFile =
                 floorplan.files[0];
 
 
-            // -----------------------------------------
-            // UPDATE UPLOAD BUTTON
-            // -----------------------------------------
+            // Update upload button
 
             if (uploadBtn) {
 
@@ -690,9 +750,7 @@ if (floorplan) {
             }
 
 
-            // -----------------------------------------
-            // ENABLE GENERATE
-            // -----------------------------------------
+            // Enable generate
 
             if (generateBtn) {
 
@@ -719,10 +777,6 @@ if (floorplan) {
 
 // =====================================================
 // GENERATE BUTTON
-//
-// GENERATE
-// → VED 1
-// → WEBSITE UNDER DEVELOPMENT
 // =====================================================
 
 if (generateBtn) {
@@ -731,9 +785,7 @@ if (generateBtn) {
         "click",
         function() {
 
-            // -----------------------------------------
-            // CHECK FILE
-            // -----------------------------------------
+            // Check file
 
             if (!selectedFile) {
 
@@ -746,9 +798,7 @@ if (generateBtn) {
             }
 
 
-            // -----------------------------------------
-            // PREVENT SECOND GENERATION
-            // -----------------------------------------
+            // Prevent second generation
 
             if (generated) {
 
@@ -757,16 +807,12 @@ if (generateBtn) {
             }
 
 
-            // -----------------------------------------
-            // REMOVE PLACEHOLDER
-            // -----------------------------------------
+            // Remove placeholder
 
             removeDefaultViewerContent();
 
 
-            // -----------------------------------------
-            // GENERATING
-            // -----------------------------------------
+            // Generating
 
             generateBtn.disabled =
                 true;
@@ -776,9 +822,7 @@ if (generateBtn) {
                 "Generating 3D Model...";
 
 
-            // -----------------------------------------
-            // LOCK DOWNLOAD
-            // -----------------------------------------
+            // Lock download
 
             if (downloadBtn) {
 
@@ -788,9 +832,7 @@ if (generateBtn) {
             }
 
 
-            // -----------------------------------------
-            // GENERATION SIMULATION
-            // -----------------------------------------
+            // Generation simulation
 
             setTimeout(
                 function() {
@@ -799,9 +841,7 @@ if (generateBtn) {
                         true;
 
 
-                    // ---------------------------------
                     // VED 1
-                    // ---------------------------------
 
                     showViewerImage(
 
@@ -812,9 +852,7 @@ if (generateBtn) {
                     );
 
 
-                    // ---------------------------------
-                    // GENERATION COMPLETE
-                    // ---------------------------------
+                    // Generation complete
 
                     generateBtn.innerText =
                         "✓ 3D Model Generated";
@@ -824,9 +862,7 @@ if (generateBtn) {
                         true;
 
 
-                    // ---------------------------------
-                    // ENABLE DOWNLOAD
-                    // ---------------------------------
+                    // Enable download
 
                     if (downloadBtn) {
 
@@ -868,10 +904,6 @@ if (downloadBtn) {
 
             }
 
-
-            // -----------------------------------------
-            // DEMO DOWNLOAD FILE
-            // -----------------------------------------
 
             const demoModel =
 
@@ -953,8 +985,6 @@ VED ArchFlow Architectural Visualization
 
 // =====================================================
 // RESET VIEW
-//
-// VED 1
 // =====================================================
 
 if (viewReset) {
@@ -986,8 +1016,6 @@ if (viewReset) {
 
 // =====================================================
 // TOP VIEW
-//
-// VED 2
 // =====================================================
 
 if (viewTop) {
@@ -1019,8 +1047,6 @@ if (viewTop) {
 
 // =====================================================
 // PERSPECTIVE VIEW
-//
-// VED 3
 // =====================================================
 
 if (viewPerspective) {
@@ -1062,10 +1088,6 @@ const viewerStyle =
 
 viewerStyle.innerHTML = `
 
-/* =========================================
-   VIEWER
-========================================= */
-
 #viewer {
 
     position: relative !important;
@@ -1076,10 +1098,6 @@ viewerStyle.innerHTML = `
 
 }
 
-
-/* =========================================
-   IMAGE
-========================================= */
 
 #viewer .archflow-viewer-image {
 
@@ -1119,10 +1137,6 @@ viewerStyle.innerHTML = `
 
 }
 
-
-/* =========================================
-   CENTER MESSAGE
-========================================= */
 
 #viewer .archflow-viewer-message {
 
@@ -1167,10 +1181,6 @@ viewerStyle.innerHTML = `
 }
 
 
-/* =========================================
-   REMOVE DEFAULT EMPTY VIEWER TEXT
-========================================= */
-
 #viewer .viewer-empty,
 
 #viewer .empty-state,
@@ -1192,10 +1202,6 @@ viewerStyle.innerHTML = `
 }
 
 
-/* =========================================
-   VIEWPORT CONTROLS
-========================================= */
-
 #viewer .viewport-controls {
 
     position: absolute !important;
@@ -1204,10 +1210,6 @@ viewerStyle.innerHTML = `
 
 }
 
-
-/* =========================================
-   VIEWPORT TOP BAR
-========================================= */
 
 #viewer .viewport-topbar {
 
@@ -1218,10 +1220,6 @@ viewerStyle.innerHTML = `
 }
 
 
-/* =========================================
-   VIEWPORT AXIS
-========================================= */
-
 #viewer .viewport-axis {
 
     position: absolute !important;
@@ -1230,10 +1228,6 @@ viewerStyle.innerHTML = `
 
 }
 
-
-/* =========================================
-   MOBILE
-========================================= */
 
 @media (max-width: 768px) {
 
@@ -1255,17 +1249,19 @@ document.head.appendChild(
 
 
 // =====================================================
-// NAVIGATION ACTIVE UNDERLINE
+// NAVIGATION ACTIVE UNDERLINE CSS
+//
+// THIS IS THE IMPORTANT FIX
 //
 // DESKTOP:
 // ONLY HOVER
 //
 // MOBILE / TABLET:
-// ACTIVE CLASS ONLY
+// ONLY .active LINK GETS UNDERLINE
 //
-// IMPORTANT:
-// !important is used so this CSS
-// overrides any previous CSS.
+// NO :active
+// NO SCROLL LOGIC
+// NO FORCED HOME
 // =====================================================
 
 const navigationStyle =
@@ -1277,93 +1273,81 @@ const navigationStyle =
 navigationStyle.innerHTML = `
 
 /* =========================================
-   NAVIGATION BASE
+   BASE NAVIGATION
 ========================================= */
 
 .nav-links a {
 
-    position: relative !important;
+    position: relative;
 
-    text-decoration: none !important;
-
-    border-bottom: none !important;
-
-}
-
-
-/* =========================================
-   REMOVE ANY OLD UNDERLINES
-========================================= */
-
-.nav-links a::before {
-
-    content: none !important;
+    -webkit-tap-highlight-color:
+        transparent;
 
 }
 
 
 /* =========================================
-   UNDERLINE
+   REMOVE ANY OLD UNDERLINE
 ========================================= */
 
 .nav-links a::after {
 
-    content: "" !important;
+    content: "";
 
-    position: absolute !important;
+    position: absolute;
 
-    left: 50% !important;
+    left: 50%;
 
-    bottom: 0 !important;
+    bottom: 0;
 
-    width: 0 !important;
+    width: 0;
 
-    height: 2px !important;
+    height: 2px;
 
-    border: 0 !important;
-
-    border-radius: 10px !important;
+    border-radius: 10px;
 
     transform:
-        translateX(-50%) !important;
+        translateX(-50%);
 
     background:
+
         linear-gradient(
             90deg,
             var(--primary),
             var(--secondary)
-        ) !important;
+        );
 
     transition:
-        width 0.25s ease !important;
+        width 0.25s ease;
 
-    pointer-events: none !important;
+    pointer-events: none;
 
 }
 
 
 /* =========================================
    DESKTOP / LAPTOP
-   HOVER ONLY
+   769px AND ABOVE
 ========================================= */
 
 @media (min-width: 769px) {
 
     .nav-links a:hover {
 
-        color: #FFFFFF !important;
+        color: #FFFFFF;
 
     }
 
 
     .nav-links a:hover::after {
 
-        width: 45px !important;
+        width: 45px;
 
     }
 
 
-    /* No permanent active underline */
+    /* Active class NEVER creates
+       permanent underline on desktop */
 
     .nav-links a.active::after {
 
@@ -1376,31 +1360,30 @@ navigationStyle.innerHTML = `
 
 /* =========================================
    MOBILE / TABLET
-   CLICKED ITEM STAYS ACTIVE
+   768px AND BELOW
 ========================================= */
 
 @media (max-width: 768px) {
 
-    .nav-links a:hover::after {
+    /* Normal links */
 
-        width: 0 !important;
+    .nav-links a {
 
-    }
-
-
-    .nav-links a:active::after {
-
-        width: 45px !important;
+        color: #B7C0D4;
 
     }
 
+
+    /* Selected link */
 
     .nav-links a.active {
 
-        color: #FFFFFF !important;
+        color: #FFFFFF;
 
     }
 
+
+    /* Selected link underline */
 
     .nav-links a.active::after {
 
@@ -1408,21 +1391,15 @@ navigationStyle.innerHTML = `
 
     }
 
-}
 
+    /* IMPORTANT:
+       No :active underline.
+       This prevents the line from
+       behaving incorrectly during touch. */
 
-/* =========================================
-   TOUCH DEVICES
-========================================= */
+    .nav-links a:active::after {
 
-@media (hover: none) and (pointer: coarse) {
-
-    .nav-links a {
-
-        -webkit-tap-highlight-color:
-            transparent !important;
-
-        touch-action: manipulation;
+        width: 0;
 
     }
 
@@ -1497,6 +1474,12 @@ document.head.appendChild(
 
 // =====================================================
 // FINAL INITIALIZATION
+//
+// IMPORTANT:
+// NO setInitialNavLink() AGAIN HERE
+// because that can reset the active link.
+//
+// It is already called once above.
 // =====================================================
 
 document.addEventListener(
@@ -1504,8 +1487,6 @@ document.addEventListener(
     function() {
 
         removeDefaultViewerContent();
-
-        setInitialNavLink();
 
     }
 );
