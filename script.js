@@ -1403,17 +1403,6 @@ navigationStyle.innerHTML = `
 
     }
 
-
-    /* Active page does NOT
-       keep permanent underline */
-
-    .nav-links a.active::after {
-
-        width:
-            0 !important;
-
-    }
-
 }
 
 
