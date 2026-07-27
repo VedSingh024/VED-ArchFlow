@@ -259,24 +259,13 @@ body {
 
         color 0.25s ease;
 
-}
-
-
-/* =====================================================
-   DESKTOP HOVER
-===================================================== */
-
-.nav-links a:hover {
-
-    color: #FFFFFF;
-
-    background: transparent;
+    -webkit-tap-highlight-color: transparent;
 
 }
 
 
 /* =====================================================
-   UNDERLINE
+   STANDARD PURPLE UNDERLINE
 ===================================================== */
 
 .nav-links a::after {
@@ -309,15 +298,31 @@ body {
 
         width 0.25s ease;
 
+    pointer-events: none;
+
 }
 
 
 /* =====================================================
-   DESKTOP
-   HOVER UNDERLINE ONLY
+   DESKTOP / LAPTOP
+   769px AND ABOVE
+
+   ONLY HOVER SHOWS UNDERLINE
+
+   ACTIVE CLASS DOES NOT SHOW
+   PERMANENT UNDERLINE
 ===================================================== */
 
 @media (min-width: 769px) {
+
+    .nav-links a:hover {
+
+        color: #FFFFFF;
+
+        background: transparent;
+
+    }
+
 
     .nav-links a:hover::after {
 
@@ -325,15 +330,43 @@ body {
 
     }
 
+
+    /*
+
+       IMPORTANT:
+
+       Even if JavaScript adds
+       .active to the current page,
+       desktop will NOT show
+       a permanent underline.
+
+    */
+
+    .nav-links a.active::after {
+
+        width: 0 !important;
+
+    }
+
 }
 
 
 /* =====================================================
-   MOBILE
-   ACTIVE LINK UNDERLINE
+   MOBILE / TABLET
+   768px AND BELOW
+
+   SELECTED / ACTIVE LINK
+   HAS PERMANENT UNDERLINE
 ===================================================== */
 
 @media (max-width: 768px) {
+
+    .nav-links a {
+
+        color: #B7C0D4;
+
+    }
+
 
     .nav-links a.active {
 
@@ -342,9 +375,32 @@ body {
     }
 
 
+    /*
+
+       SELECTED LINK:
+
+       Purple gradient line
+       stays permanently visible.
+
+    */
+
     .nav-links a.active::after {
 
         width: 45px;
+
+    }
+
+
+    /*
+
+       Prevent temporary
+       touch underline.
+
+    */
+
+    .nav-links a:active::after {
+
+        width: 0;
 
     }
 
