@@ -43,7 +43,9 @@
     <header class="navbar">
 
         <div class="logo">
+
             <span>VED</span> ArchFlow
+
         </div>
 
 
@@ -53,9 +55,11 @@
                 Home
             </a>
 
+
             <a href="./guide.html">
                 Guide
             </a>
+
 
             <a href="./history.html">
                 History
@@ -68,26 +72,34 @@
 
 
     <!-- =========================================
-         GUIDE
+         GUIDE PAGE
     ========================================== -->
 
     <main class="guide-page">
 
 
-        <div class="guide-label">
-            VED ARCHFLOW / GUIDE
-        </div>
+        <!-- =========================================
+             GUIDE HEADER
+        ========================================== -->
+
+        <section class="guide-header">
+
+            <h1>
+                VED ArchFlow / Guide
+            </h1>
+
+        </section>
 
 
 
         <!-- =========================================
-             FOUR GUIDE BOXES
+             GUIDE SECTION
         ========================================== -->
 
-        <section class="guide-grid">
+        <section class="guide-section">
 
 
-            <!-- BOX 01 -->
+            <!-- GUIDE 01 -->
 
             <div class="guide-card">
 
@@ -95,25 +107,15 @@
                     01
                 </span>
 
-
-                <div class="guide-title">
-
-                    <h2>
-                        Upload Plan
-                    </h2>
-
-                </div>
-
-
                 <p>
-                    Select a JPG, JPEG, or PNG floor plan.
+                    Select your 2D floor plan in JPG, JPEG, or PNG format.
                 </p>
 
             </div>
 
 
 
-            <!-- BOX 02 -->
+            <!-- GUIDE 02 -->
 
             <div class="guide-card">
 
@@ -121,25 +123,15 @@
                     02
                 </span>
 
-
-                <div class="guide-title">
-
-                    <h2>
-                        Generate
-                    </h2>
-
-                </div>
-
-
                 <p>
-                    Transform your layout into a visual experience.
+                    Start the generation process to transform your architectural layout.
                 </p>
 
             </div>
 
 
 
-            <!-- BOX 03 -->
+            <!-- GUIDE 03 -->
 
             <div class="guide-card">
 
@@ -147,41 +139,21 @@
                     03
                 </span>
 
-
-                <div class="guide-title">
-
-                    <h2>
-                        Explore
-                    </h2>
-
-                </div>
-
-
                 <p>
-                    Preview your generated architectural experience.
+                    Explore your generated architectural experience.
                 </p>
 
             </div>
 
 
 
-            <!-- BOX 04 -->
+            <!-- GUIDE 04 -->
 
             <div class="guide-card">
 
                 <span class="guide-number">
                     04
                 </span>
-
-
-                <div class="guide-title">
-
-                    <h2>
-                        Download
-                    </h2>
-
-                </div>
-
 
                 <p>
                     Download your generated result.
@@ -206,6 +178,7 @@
         <p>
             AI Powered Architectural Visualization Platform
         </p>
+
 
         <small>
             © 2026 VED ArchFlow. All Rights Reserved.
@@ -246,10 +219,10 @@
 
 
         /* =========================================
-           GUIDE LABEL
+           GUIDE HEADER
         ========================================== */
 
-        .guide-label {
+        .guide-header {
 
             width: 100%;
 
@@ -264,6 +237,24 @@
 
             box-sizing: border-box;
 
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            text-align: center;
+
+        }
+
+
+
+        .guide-header h1 {
+
+            margin: 0;
+
+            padding: 0;
+
             font-family:
                 "Inter",
                 sans-serif;
@@ -273,6 +264,8 @@
             font-weight: 700;
 
             letter-spacing: 3px;
+
+            line-height: 1.5;
 
             text-align: center;
 
@@ -291,10 +284,11 @@
 
 
         /* =========================================
-           GUIDE GRID
+           GUIDE SECTION
+           SAME WIDTH AS HISTORY
         ========================================== */
 
-        .guide-grid {
+        .guide-section {
 
             width: 100%;
 
@@ -319,7 +313,8 @@
 
 
         /* =========================================
-           GUIDE CARD
+           THIN PREMIUM GLASS BOX
+           SAME FEEL AS HISTORY
         ========================================== */
 
         .guide-card {
@@ -334,19 +329,11 @@
                 25px
                 4vw;
 
-            display: grid;
-
-            grid-template-columns:
-                55px
-                220px
-                minmax(
-                    0,
-                    1fr
-                );
+            display: flex;
 
             align-items: center;
 
-            gap: 30px;
+            gap: 25px;
 
             border:
                 1px solid
@@ -446,6 +433,8 @@
 
         .guide-number {
 
+            flex-shrink: 0;
+
             font-family:
                 "Space Grotesk",
                 sans-serif;
@@ -456,48 +445,17 @@
 
             letter-spacing: 1px;
 
-            color:
-                #7C8CFF;
-
-            white-space:
-                nowrap;
-
-        }
-
-
-
-        /* =========================================
-           TITLE
-        ========================================== */
-
-        .guide-card h2 {
-
-            margin: 0;
-
-            padding: 0;
-
-            font-family:
-                "Space Grotesk",
-                sans-serif;
-
-            font-size: 13px;
-
-            font-weight: 600;
-
             line-height: 1.5;
 
             color:
-                #ffffff;
-
-            white-space:
-                nowrap;
+                #7C8CFF;
 
         }
 
 
 
         /* =========================================
-           DESCRIPTION
+           GUIDE TEXT
         ========================================== */
 
         .guide-card p {
@@ -512,7 +470,9 @@
 
             font-size: 12px;
 
-            font-weight: 400;
+            font-weight: 500;
+
+            letter-spacing: 0.2px;
 
             line-height: 1.5;
 
@@ -543,7 +503,7 @@
 
         @media (min-width: 1400px) {
 
-            .guide-grid {
+            .guide-section {
 
                 padding:
                     0
@@ -572,28 +532,12 @@
 
             .guide-card {
 
-                grid-template-columns:
-                    45px
-                    170px
-                    minmax(
-                        0,
-                        1fr
-                    );
-
-                gap:
-                    20px;
-
                 padding:
                     22px
                     3vw;
 
-            }
-
-
-            .guide-card h2 {
-
-                font-size:
-                    12px;
+                gap:
+                    20px;
 
             }
 
@@ -625,7 +569,7 @@
             }
 
 
-            .guide-label {
+            .guide-header {
 
                 padding:
                     0
@@ -634,19 +578,21 @@
                 margin-bottom:
                     40px;
 
+            }
+
+
+            .guide-header h1 {
+
                 font-size:
                     10px;
 
                 letter-spacing:
                     2px;
 
-                text-align:
-                    center;
-
             }
 
 
-            .guide-grid {
+            .guide-section {
 
                 padding:
                     0
@@ -667,16 +613,8 @@
                     20px
                     16px;
 
-                grid-template-columns:
-                    28px
-                    85px
-                    minmax(
-                        0,
-                        1fr
-                    );
-
                 gap:
-                    10px;
+                    14px;
 
             }
 
@@ -689,18 +627,13 @@
             }
 
 
-            .guide-card h2 {
-
-                font-size:
-                    11px;
-
-            }
-
-
             .guide-card p {
 
                 font-size:
                     10px;
+
+                white-space:
+                    nowrap;
 
             }
 
@@ -716,20 +649,15 @@
 
             .guide-card {
 
+                min-height:
+                    110px;
+
                 padding:
                     18px
                     12px;
 
-                grid-template-columns:
-                    25px
-                    72px
-                    minmax(
-                        0,
-                        1fr
-                    );
-
                 gap:
-                    7px;
+                    10px;
 
             }
 
@@ -738,14 +666,6 @@
 
                 font-size:
                     9px;
-
-            }
-
-
-            .guide-card h2 {
-
-                font-size:
-                    10px;
 
             }
 
