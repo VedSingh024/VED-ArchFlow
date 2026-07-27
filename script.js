@@ -2,7 +2,7 @@
 // VED ARCHFLOW
 // FINAL FRONTEND CONTROLLER
 // IMAGE VIEWER + VIEW BUTTONS + CENTER MESSAGES
-// REMOVE DEFAULT VIEWER PLACEHOLDER TEXT
+// NAVIGATION ACTIVE STATE + MOBILE TAP UNDERLINE
 // =====================================================
 
 
@@ -36,6 +36,16 @@ const viewPerspective =
 
 
 // =====================================================
+// NAVIGATION ELEMENTS
+// =====================================================
+
+const navLinks =
+    document.querySelectorAll(
+        ".nav-links a"
+    );
+
+
+// =====================================================
 // STATE
 // =====================================================
 
@@ -56,9 +66,14 @@ let modelURL = null;
 // ved 3.png
 // =====================================================
 
-const VED_IMAGE_1 = "./ved 1.png";
-const VED_IMAGE_2 = "./ved 2.png";
-const VED_IMAGE_3 = "./ved 3.png";
+const VED_IMAGE_1 =
+    "./ved 1.png";
+
+const VED_IMAGE_2 =
+    "./ved 2.png";
+
+const VED_IMAGE_3 =
+    "./ved 3.png";
 
 
 // =====================================================
@@ -87,16 +102,273 @@ const VIEW_MESSAGES = {
 
 if (generateBtn) {
 
-    generateBtn.disabled = true;
+    generateBtn.disabled =
+        true;
 
 }
 
 
 if (downloadBtn) {
 
-    downloadBtn.disabled = true;
+    downloadBtn.disabled =
+        true;
 
 }
+
+
+// =====================================================
+// NAVIGATION ACTIVE STATE
+//
+// DESKTOP:
+// Hover underline works from CSS.
+//
+// MOBILE / TABLET:
+// Tapped navigation item gets an active
+// underline which stays visible.
+//
+// When another navigation item is tapped,
+// the underline moves to that item.
+//
+// The active class is also updated when
+// the user scrolls through page sections.
+// =====================================================
+
+function setActiveNavLink(activeLink) {
+
+    if (!activeLink) {
+
+        return;
+
+    }
+
+
+    navLinks.forEach(
+        function(link) {
+
+            link.classList.remove(
+                "active"
+            );
+
+        }
+    );
+
+
+    activeLink.classList.add(
+        "active"
+    );
+
+}
+
+
+// =====================================================
+// NAVIGATION CLICK / TAP
+// =====================================================
+
+navLinks.forEach(
+    function(link) {
+
+        link.addEventListener(
+            "click",
+            function() {
+
+                setActiveNavLink(
+                    link
+                );
+
+            }
+        );
+
+    }
+);
+
+
+// =====================================================
+// ACTIVE NAVIGATION ON PAGE LOAD
+//
+// If a link points to the current page,
+// it can automatically become active.
+// =====================================================
+
+function setInitialNavLink() {
+
+    if (!navLinks.length) {
+
+        return;
+
+    }
+
+
+    let foundActive =
+        false;
+
+
+    navLinks.forEach(
+        function(link) {
+
+            const href =
+                link.getAttribute(
+                    "href"
+                );
+
+
+            if (
+                href &&
+                href ===
+                window.location.pathname
+            ) {
+
+                setActiveNavLink(
+                    link
+                );
+
+                foundActive =
+                    true;
+
+            }
+
+        }
+    );
+
+
+    if (!foundActive) {
+
+        // Keep first navigation item
+        // active only on mobile/tablet.
+        // Desktop will still use hover.
+
+        if (
+            window.innerWidth <=
+            768
+        ) {
+
+            setActiveNavLink(
+                navLinks[0]
+            );
+
+        }
+
+    }
+
+}
+
+
+setInitialNavLink();
+
+
+// =====================================================
+// SCROLL-BASED ACTIVE NAVIGATION
+//
+// This works when navigation links point
+// to sections using IDs.
+//
+// Example:
+//
+// <a href="#home">Home</a>
+// <a href="#guide">Guide</a>
+// <a href="#history">History</a>
+//
+// The underline automatically moves to
+// the section currently visible.
+// =====================================================
+
+const sections =
+    document.querySelectorAll(
+        "section[id], main[id], div[id]"
+    );
+
+
+function updateActiveNavOnScroll() {
+
+    if (!sections.length) {
+
+        return;
+
+    }
+
+
+    let currentSection =
+        "";
+
+
+    const scrollPosition =
+        window.scrollY +
+        180;
+
+
+    sections.forEach(
+        function(section) {
+
+            const sectionTop =
+                section.offsetTop;
+
+            const sectionHeight =
+                section.offsetHeight;
+
+            if (
+
+                scrollPosition >=
+                sectionTop
+
+                &&
+
+                scrollPosition <
+                sectionTop +
+                sectionHeight
+
+            ) {
+
+                currentSection =
+                    section.getAttribute(
+                        "id"
+                    );
+
+            }
+
+        }
+    );
+
+
+    if (!currentSection) {
+
+        return;
+
+    }
+
+
+    navLinks.forEach(
+        function(link) {
+
+            const href =
+                link.getAttribute(
+                    "href"
+                );
+
+
+            if (
+                href ===
+                "#" +
+                currentSection
+            ) {
+
+                setActiveNavLink(
+                    link
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+window.addEventListener(
+    "scroll",
+    updateActiveNavOnScroll,
+    {
+        passive: true
+    }
+);
 
 
 // =====================================================
@@ -131,14 +403,23 @@ function removeDefaultViewerContent() {
 
     const emptyElements =
         container.querySelectorAll(
+
             ".viewer-empty, " +
+
             ".empty-state, " +
+
             ".empty-message, " +
+
             ".placeholder, " +
+
             ".placeholder-text, " +
+
             ".no-model, " +
+
             ".no-model-message, " +
+
             ".model-empty"
+
         );
 
 
@@ -172,6 +453,7 @@ function removeDefaultViewerContent() {
 
 
             // Never touch viewport controls
+
             if (
                 element.closest(
                     ".viewport-controls"
@@ -184,6 +466,7 @@ function removeDefaultViewerContent() {
 
 
             // Never touch top bar
+
             if (
                 element.closest(
                     ".viewport-topbar"
@@ -196,6 +479,7 @@ function removeDefaultViewerContent() {
 
 
             // Never touch axis
+
             if (
                 element.closest(
                     ".viewport-axis"
@@ -208,6 +492,7 @@ function removeDefaultViewerContent() {
 
 
             // Remove default placeholder text
+
             if (
 
                 text ===
@@ -426,6 +711,7 @@ function showViewerImage(
 
 
     // Image stays behind controls
+
     image.style.zIndex =
         "1";
 
@@ -1144,6 +1430,169 @@ document.head.appendChild(
 
 
 // =====================================================
+// NAVIGATION ACTIVE UNDERLINE CSS
+//
+// PC:
+// Hover = underline
+// No permanent active underline.
+//
+// MOBILE / TABLET:
+// Tap = underline stays
+// Active item = underline stays
+// New tap = underline moves
+// =====================================================
+
+const navigationStyle =
+    document.createElement(
+        "style"
+    );
+
+
+navigationStyle.innerHTML = `
+
+/* =========================================
+   NAVIGATION LINK BASE
+========================================= */
+
+.nav-links a {
+
+    position: relative;
+
+}
+
+
+/* =========================================
+   UNDERLINE
+========================================= */
+
+.nav-links a::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+
+    bottom: 0;
+
+    width: 0;
+
+    height: 2px;
+
+    border-radius: 10px;
+
+    transform:
+        translateX(-50%);
+
+    background:
+
+        linear-gradient(
+            90deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    transition:
+
+        width 0.25s ease;
+
+    pointer-events: none;
+
+}
+
+
+/* =========================================
+   DESKTOP
+   HOVER ONLY
+========================================= */
+
+@media (min-width: 769px) {
+
+    .nav-links a:hover {
+
+        color: #FFFFFF;
+
+    }
+
+
+    .nav-links a:hover::after {
+
+        width: 45px;
+
+    }
+
+
+    /*
+       Active class does NOT stay visible
+       on desktop.
+       Desktop remains hover based.
+    */
+
+    .nav-links a.active::after {
+
+        width: 0;
+
+    }
+
+}
+
+
+/* =========================================
+   MOBILE + TABLET
+   TAP / ACTIVE STATE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .nav-links a:active::after {
+
+        width: 45px;
+
+    }
+
+
+    .nav-links a.active::after {
+
+        width: 45px;
+
+    }
+
+
+    .nav-links a.active {
+
+        color: #FFFFFF;
+
+    }
+
+}
+
+
+/* =========================================
+   TOUCH DEVICES
+   REMOVE TAP HIGHLIGHT
+========================================= */
+
+@media (hover: none) and (pointer: coarse) {
+
+    .nav-links a {
+
+        -webkit-tap-highlight-color:
+            transparent;
+
+        touch-action: manipulation;
+
+    }
+
+}
+
+`;
+
+document.head.appendChild(
+    navigationStyle
+);
+
+
+// =====================================================
 // HERO — DESKTOP ONE LINE
 // =====================================================
 
@@ -1198,7 +1647,33 @@ mobileStyle.innerHTML = `
 
 `;
 
-
 document.head.appendChild(
     mobileStyle
+);
+
+
+// =====================================================
+// FINAL INITIALIZATION
+// =====================================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        removeDefaultViewerContent();
+
+        setInitialNavLink();
+
+        updateActiveNavOnScroll();
+
+    }
+);
+
+
+// =====================================================
+// VED ARCHFLOW CONTROLLER READY
+// =====================================================
+
+console.log(
+    "VED ArchFlow Frontend Controller Ready."
 );
