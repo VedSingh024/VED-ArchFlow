@@ -13,9 +13,10 @@
     <title>VED ARCHFLOW / GUIDE</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
+
     <link
         rel="preconnect"
-        href="https://fonts.gstatic.com"
+        href="https://fonts.googleapis.com"
         crossorigin
     >
 
@@ -80,7 +81,7 @@
 
 
         <!-- =========================================
-             FOUR FULL-WIDTH BOXES
+             FOUR GUIDE BOXES
         ========================================== -->
 
         <section class="guide-grid">
@@ -98,14 +99,14 @@
                 <div class="guide-title">
 
                     <h2>
-                        Upload Your Plan
+                        Upload Plan
                     </h2>
 
                 </div>
 
 
                 <p>
-                    Select your 2D floor plan in JPG, JPEG, or PNG format and prepare it for architectural visualization.
+                    Select a JPG, JPEG, or PNG floor plan.
                 </p>
 
             </div>
@@ -124,14 +125,14 @@
                 <div class="guide-title">
 
                     <h2>
-                        Generate Your Experience
+                        Generate
                     </h2>
 
                 </div>
 
 
                 <p>
-                    Start the generation process and transform your architectural layout into an immersive visual experience.
+                    Transform your layout into a visual experience.
                 </p>
 
             </div>
@@ -150,14 +151,14 @@
                 <div class="guide-title">
 
                     <h2>
-                        Explore the Preview
+                        Explore
                     </h2>
 
                 </div>
 
 
                 <p>
-                    Navigate through the available views and explore your generated architectural experience.
+                    Preview your generated architectural experience.
                 </p>
 
             </div>
@@ -176,14 +177,14 @@
                 <div class="guide-title">
 
                     <h2>
-                        Download Your Result
+                        Download
                     </h2>
 
                 </div>
 
 
                 <p>
-                    Download your generated result and continue your architectural workflow.
+                    Download your generated result.
                 </p>
 
             </div>
@@ -245,8 +246,7 @@
 
 
         /* =========================================
-           ONLY GUIDE LABEL
-           CENTER ALIGNED
+           GUIDE LABEL
         ========================================== */
 
         .guide-label {
@@ -291,7 +291,7 @@
 
 
         /* =========================================
-           FULL WIDTH BOX CONTAINER
+           GUIDE GRID
         ========================================== */
 
         .guide-grid {
@@ -319,7 +319,7 @@
 
 
         /* =========================================
-           FULL WIDTH GLASS BOX
+           GUIDE CARD
         ========================================== */
 
         .guide-card {
@@ -337,19 +337,16 @@
             display: grid;
 
             grid-template-columns:
-                70px
+                55px
+                220px
                 minmax(
-                    260px,
-                    0.8fr
-                )
-                minmax(
-                    350px,
-                    1.5fr
+                    0,
+                    1fr
                 );
 
             align-items: center;
 
-            gap: 40px;
+            gap: 30px;
 
             border:
                 1px solid
@@ -453,7 +450,7 @@
                 "Space Grotesk",
                 sans-serif;
 
-            font-size: 13px;
+            font-size: 12px;
 
             font-weight: 700;
 
@@ -461,6 +458,9 @@
 
             color:
                 #7C8CFF;
+
+            white-space:
+                nowrap;
 
         }
 
@@ -474,18 +474,23 @@
 
             margin: 0;
 
+            padding: 0;
+
             font-family:
                 "Space Grotesk",
                 sans-serif;
 
-            font-size: 20px;
-
-            line-height: 1.25;
+            font-size: 13px;
 
             font-weight: 600;
 
+            line-height: 1.5;
+
             color:
                 #ffffff;
+
+            white-space:
+                nowrap;
 
         }
 
@@ -499,21 +504,34 @@
 
             margin: 0;
 
+            padding: 0;
+
             font-family:
                 "Inter",
                 sans-serif;
 
-            font-size: 13px;
+            font-size: 12px;
 
-            line-height: 1.6;
+            font-weight: 400;
+
+            line-height: 1.5;
 
             color:
                 rgba(
                     255,
                     255,
                     255,
-                    0.55
+                    0.48
                 );
+
+            white-space:
+                nowrap;
+
+            overflow:
+                hidden;
+
+            text-overflow:
+                ellipsis;
 
         }
 
@@ -537,7 +555,7 @@
             .guide-card {
 
                 padding:
-                    28px
+                    25px
                     3vw;
 
             }
@@ -555,20 +573,35 @@
             .guide-card {
 
                 grid-template-columns:
-                    55px
-                    1fr;
+                    45px
+                    170px
+                    minmax(
+                        0,
+                        1fr
+                    );
 
                 gap:
-                    15px
-                    25px;
+                    20px;
+
+                padding:
+                    22px
+                    3vw;
+
+            }
+
+
+            .guide-card h2 {
+
+                font-size:
+                    12px;
 
             }
 
 
             .guide-card p {
 
-                grid-column:
-                    2;
+                font-size:
+                    11px;
 
             }
 
@@ -628,18 +661,30 @@
             .guide-card {
 
                 min-height:
-                    150px;
+                    110px;
 
                 padding:
-                    24px;
+                    20px
+                    16px;
 
                 grid-template-columns:
-                    42px
-                    1fr;
+                    28px
+                    85px
+                    minmax(
+                        0,
+                        1fr
+                    );
 
                 gap:
-                    12px
-                    18px;
+                    10px;
+
+            }
+
+
+            .guide-number {
+
+                font-size:
+                    10px;
 
             }
 
@@ -647,18 +692,68 @@
             .guide-card h2 {
 
                 font-size:
-                    18px;
+                    11px;
 
             }
 
 
             .guide-card p {
 
-                grid-column:
-                    1 / -1;
+                font-size:
+                    10px;
+
+            }
+
+        }
+
+
+
+        /* =========================================
+           SMALL MOBILE
+        ========================================== */
+
+        @media (max-width: 380px) {
+
+            .guide-card {
+
+                padding:
+                    18px
+                    12px;
+
+                grid-template-columns:
+                    25px
+                    72px
+                    minmax(
+                        0,
+                        1fr
+                    );
+
+                gap:
+                    7px;
+
+            }
+
+
+            .guide-number {
 
                 font-size:
-                    12px;
+                    9px;
+
+            }
+
+
+            .guide-card h2 {
+
+                font-size:
+                    10px;
+
+            }
+
+
+            .guide-card p {
+
+                font-size:
+                    9px;
 
             }
 
