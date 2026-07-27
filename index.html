@@ -5,7 +5,10 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>VED ArchFlow</title>
 
@@ -14,14 +17,30 @@
         content="AI Powered Architectural Visualization Platform"
     >
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <!-- GOOGLE FONTS -->
 
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700;800&display=swap"
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap"
         rel="stylesheet"
     >
 
-    <link rel="stylesheet" href="./style.css">
+    <!-- MAIN CSS -->
+
+    <link
+        rel="stylesheet"
+        href="./style.css"
+    >
 
 </head>
 
@@ -29,235 +48,364 @@
 <body>
 
 
-<header class="navbar">
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
 
-    <div class="logo">
-        <span>VED</span> ArchFlow
-    </div>
+    <header class="navbar">
 
-    <nav class="nav-links">
+        <!-- LOGO -->
 
-    <a href="./index.html" data-page="home">
-        Home
-    </a>
+        <div class="logo">
 
-    <a href="./guide.html" data-page="guide">
-        Guide
-    </a>
-
-    <a href="./history.html" data-page="history">
-        History
-    </a>
-
-</nav>
-
-</header>
-
-
-
-<main>
-
-
-<section class="hero">
-
-    <div class="hero-content">
-
-        <h1>
-            Turn 2D Floor Plans Into
-            <span>Stunning 3D Experiences</span>
-        </h1>
-
-        <p>
-            AI-powered architectural visualization from simple floor plans.
-        </p>
-
-    </div>
-
-</section>
-
-
-
-<section class="upload-section">
-
-
-    <button
-        id="uploadBtn"
-        class="primary-btn"
-        type="button"
-    >
-        Choose Floor Plan
-    </button>
-
-
-    <input
-        type="file"
-        id="floorplan"
-        accept="image/png,image/jpeg,image/jpg"
-        hidden
-    >
-
-
-    <button
-        id="generateBtn"
-        class="primary-btn"
-        type="button"
-        disabled
-    >
-        Generate 3D Model
-    </button>
-
-
-</section>
-
-
-
-<section class="preview-section">
-
-
-    <div class="preview-heading">
-
-        <h2>
-            3D Preview
-        </h2>
-
-        <p>
-            Interactive architectural viewport
-        </p>
-
-    </div>
-
-
-
-    <div
-        id="viewer"
-        class="viewport"
-    >
-
-
-        <div class="viewport-topbar">
-
-            <div class="viewport-brand">
-                VED ArchFlow
-            </div>
-
-            <div
-                id="viewportMode"
-                class="viewport-mode"
-            >
-                Perspective
-            </div>
+            <span>VED</span> ArchFlow
 
         </div>
 
 
+        <!-- NAVIGATION -->
 
-        <div
-            id="viewerContent"
-            class="viewer-content"
-        >
+        <nav class="nav-links">
 
-            <div class="viewer-empty">
+            <a
+                href="./index.html"
+                data-page="home"
+            >
+                Home
+            </a>
 
-                <div class="empty-icon">
-                    3D
-                </div>
 
-                <h3>
-                    No 3D Model Yet
-                </h3>
+            <a
+                href="./guide.html"
+                data-page="guide"
+            >
+                Guide
+            </a>
+
+
+            <a
+                href="./history.html"
+                data-page="history"
+            >
+                History
+            </a>
+
+        </nav>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main>
+
+
+        <!-- =================================================
+             HERO
+        ================================================== -->
+
+        <section class="hero">
+
+            <div class="hero-content">
+
+                <h1>
+
+                    Turn 2D Floor Plans Into
+
+                    <span>
+                        Stunning 3D Experiences
+                    </span>
+
+                </h1>
+
 
                 <p>
-                    Choose a floor plan and generate your 3D model.
+
+                    AI-powered architectural visualization
+                    from simple floor plans.
+
                 </p>
 
             </div>
 
-        </div>
+        </section>
 
 
 
-        <div class="viewport-controls">
+        <!-- =================================================
+             UPLOAD SECTION
+        ================================================== -->
+
+        <section class="upload-section">
+
+
+            <!-- CHOOSE FLOOR PLAN -->
 
             <button
-                id="viewReset"
+                id="uploadBtn"
+                class="primary-btn"
                 type="button"
             >
-                Reset View
+
+                Choose Floor Plan
+
             </button>
 
 
-            <button
-                id="viewTop"
-                type="button"
+            <!-- HIDDEN FILE INPUT -->
+
+            <input
+                type="file"
+                id="floorplan"
+                accept="image/png,image/jpeg,image/jpg"
+                hidden
             >
-                Top
+
+
+            <!-- GENERATE MODEL -->
+
+            <button
+                id="generateBtn"
+                class="primary-btn"
+                type="button"
+                disabled
+            >
+
+                Generate 3D Model
+
             </button>
 
 
-            <button
-                id="viewPerspective"
-                type="button"
+        </section>
+
+
+
+        <!-- =================================================
+             PREVIEW SECTION
+        ================================================== -->
+
+        <section class="preview-section">
+
+
+            <!-- PREVIEW HEADING -->
+
+            <div class="preview-heading">
+
+                <h2>
+                    3D Preview
+                </h2>
+
+
+                <p>
+                    Interactive architectural viewport
+                </p>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 VIEWER
+            ================================================== -->
+
+            <div
+                id="viewer"
+                class="viewport"
             >
-                Perspective
+
+
+                <!-- VIEWER TOP BAR -->
+
+                <div class="viewport-topbar">
+
+                    <div class="viewport-brand">
+
+                        VED ArchFlow
+
+                    </div>
+
+
+                    <div
+                        id="viewportMode"
+                        class="viewport-mode"
+                    >
+
+                        Perspective
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- VIEWER CONTENT -->
+
+                <div
+                    id="viewerContent"
+                    class="viewer-content"
+                >
+
+
+                    <!-- EMPTY VIEWER -->
+
+                    <div class="viewer-empty">
+
+
+                        <div class="empty-icon">
+
+                            3D
+
+                        </div>
+
+
+                        <h3>
+
+                            No 3D Model Yet
+
+                        </h3>
+
+
+                        <p>
+
+                            Choose a floor plan and
+                            generate your 3D model.
+
+                        </p>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- VIEW CONTROLS -->
+
+                <div class="viewport-controls">
+
+
+                    <button
+                        id="viewReset"
+                        type="button"
+                    >
+
+                        Reset View
+
+                    </button>
+
+
+                    <button
+                        id="viewTop"
+                        type="button"
+                    >
+
+                        Top
+
+                    </button>
+
+
+                    <button
+                        id="viewPerspective"
+                        type="button"
+                    >
+
+                        Perspective
+
+                    </button>
+
+
+                </div>
+
+
+
+                <!-- AXIS INDICATOR -->
+
+                <div class="viewport-axis">
+
+
+                    <span class="axis-x">
+
+                        X
+
+                    </span>
+
+
+                    <span class="axis-y">
+
+                        Y
+
+                    </span>
+
+
+                    <span class="axis-z">
+
+                        Z
+
+                    </span>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- DOWNLOAD MODEL -->
+
+            <button
+                id="downloadBtn"
+                class="primary-btn"
+                type="button"
+                disabled
+            >
+
+                Download 3D Model
+
             </button>
 
-        </div>
+
+        </section>
+
+
+    </main>
 
 
 
-        <div class="viewport-axis">
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
 
-            <span class="axis-x">
-                X
-            </span>
-
-            <span class="axis-y">
-                Y
-            </span>
-
-            <span class="axis-z">
-                Z
-            </span>
-
-        </div>
+    <footer>
 
 
-    </div>
+        <p>
+
+            AI Powered Architectural Visualization Platform
+
+        </p>
 
 
+        <small>
 
-    <button
-        id="downloadBtn"
-        class="primary-btn"
-        type="button"
-        disabled
-    >
-        Download 3D Model
-    </button>
+            © 2026 VED ArchFlow. All Rights Reserved.
+
+        </small>
 
 
-</section>
-
-
-</main>
+    </footer>
 
 
 
-<footer>
+    <!-- =====================================================
+         MAIN JAVASCRIPT
+    ====================================================== -->
 
-    <p>
-        AI Powered Architectural Visualization Platform
-    </p>
-
-    <small>
-        © 2026 VED ArchFlow. All Rights Reserved.
-    </small>
-
-</footer>
-
-
-
-<script src="./script.js"></script>
+    <script src="./script.js"></script>
 
 
 </body>
