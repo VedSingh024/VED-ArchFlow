@@ -16,7 +16,7 @@
 
     <link
         rel="preconnect"
-        href="https://fonts.googleapis.com"
+        href="https://fonts.gstatic.com"
         crossorigin
     >
 
@@ -51,15 +51,24 @@
 
         <nav class="nav-links">
 
+            <!-- HOME -->
+
             <a href="./index.html">
                 Home
             </a>
 
 
-            <a href="./guide.html">
+            <!-- GUIDE - ACTIVE PAGE -->
+
+            <a
+                href="./guide.html"
+                class="active"
+            >
                 Guide
             </a>
 
+
+            <!-- HISTORY -->
 
             <a href="./history.html">
                 History
@@ -285,7 +294,6 @@
 
         /* =========================================
            GUIDE SECTION
-           SAME WIDTH AS HISTORY
         ========================================== */
 
         .guide-section {
@@ -314,7 +322,6 @@
 
         /* =========================================
            THIN PREMIUM GLASS BOX
-           SAME FEEL AS HISTORY
         ========================================== */
 
         .guide-card {
@@ -405,7 +412,7 @@
 
 
         /* =========================================
-           HOVER
+           GUIDE CARD HOVER
         ========================================== */
 
         .guide-card:hover {
